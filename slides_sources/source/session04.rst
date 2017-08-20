@@ -1,11 +1,8 @@
-.. Foundations 2: Python slides file, created by
-   Chris Barker: May 12, 2014.
+.. include:: include.rst
 
-*******************************************************
-Session Four: Dictionaries, Sets, Exceptions, and Files
-*******************************************************
-
-
+*******************************************
+Session Four: Dictionaries, Sets, and Files
+*******************************************
 
 ================
 Review/Questions
@@ -32,9 +29,30 @@ Review of Previous Classes
 
 Any questions?
 
-.. nextslide::
+Lightning Talks Today:
+----------------------
 
-A couple other nifty utilties with for loops:
+.. rst-class:: medium
+
+  Abdishu Hagi
+
+  Enrique R Silva
+
+  Isaac Cowhey
+
+  Paul G Anderson
+
+
+==============================
+Handy hints for/from Homework
+==============================
+
+.. rst-class:: mlarge
+
+  You almost never need to loop through the indexes of a sequence
+
+nifty for loop tricks
+---------------------
 
 **tuple unpacking:**
 
@@ -51,16 +69,21 @@ You can do that in a for loop, also:
   In [4]: l = [(1, 2), (3, 4), (5, 6)]
 
   In [5]: for i, j in l:
-              print "i:%i, j:%i"%(i, j)
+              print("i:{}, j:{}".format(i, j))
 
   i:1, j:2
   i:3, j:4
   i:5, j:6
 
-Looping through two loops at once:
-----------------------------------
+(Mailroom example)
 
-**zip:**
+
+Looping through two iterables at once:
+--------------------------------------
+
+.. rst-class:: mlarge
+
+  ``zip``
 
 .. code-block:: ipython
 
@@ -69,22 +92,47 @@ Looping through two loops at once:
     In [11]: l2 = [3, 4, 5]
 
     In [12]: for i, j in zip(l1, l2):
-       ....:     print "i:%i, j:%i"%(i, j)
-       ....:
+              print("i:{}, j:{}".format(i, j))
+
     i:1, j:3
     i:2, j:4
     i:3, j:5
 
+Can be more than two:
+
+.. code-block:: python
+
+  for i, j, k, l in zip(l1, l2, l3, l4):
 
 
-Homework comments
+Need the index and the item?
+----------------------------
+
+.. rst-class:: mlarge
+
+  ``enumerate``
+
+.. code-block:: ipython
+
+    In [2]: l = ['this', 'that', 'the other']
+
+    In [3]: for i, item in enumerate(l):
+       ...:     print("the {:d}th item is: {:s}".format(i, item))
+       ...:
+    the 0th item is: this
+    the 1th item is: that
+    the 2th item is: the other
+
+
+
+Homework Comments
 -----------------
 
 Building up a long string.
 
 The obvious thing to do is something like::
 
-  msg = u""
+  msg = ""
   for piece in list_of_stuff:
       msg += piece
 
@@ -93,12 +141,56 @@ But: strings are immutable -- python needs to create a new string each time you 
    msg = []
    for piece in list_of_stuff:
        msg.append(piece)
-   u" ".join(msg)
+   " ".join(msg)
 
 appending to lists is efficient -- and so is the join() method of strings.
 
-
 .. nextslide::
+
+.. rst-class:: center mlarge
+
+You can put a mutable item in an immutable object!
+
+(demo)
+
+.. nextslide:: A couple small things:
+
+|
+| Use string formatting
+|
+| The ``sum()`` function
+|
+| Deleting from list (list_lab)
+|
+
+__main__
+--------
+
+What is this::
+
+  if __name__ == __main__
+
+about?
+
+Every module has a __name__
+
+If the module is loaded by ``import`` then it's name is the filename.
+
+If the module is run at the command line, like:
+
+.. code-block:: bash
+
+    python3 the_module.py
+
+Then it's ``__name__`` will be "__main__"
+
+This can be used to run code only when a module is run as a command,
+but not when it is imported.
+
+(demo)
+
+assert
+------
 
 What is ``assert`` for?
 
@@ -111,10 +203,33 @@ in operational code should be::
     if m < 0:
         raise ValueError
 
-I'll cover Exceptions later this class...
+I'll cover more next week ...
 
 (Asserts get ignored if optimization is turned on!)
 
+what the heck is reversed()?
+----------------------------
+
+I had a question in a PR:
+
+"what is ``reversed(x)``'s resultant object? what good is it?""
+
+.. nextslide::
+
+try it:
+
+.. code-block:: ipython
+
+  In [14]: type(reversed(l))
+  Out[14]: list_reverseiterator
+
+so it's a ``list_reverseiterator`` object -- not helpful, is it :-)
+
+But what it means is that it's an "iterable" that you can then do things like loop through with a for loop, etc. but it hasn't made a copy of the list -- it returns the items one by one as they are asked for. this has performance benefits, as it doesn't have to make a copy of the whole thing.
+
+So you use it if you want to loop through something in reversed order, but dont actually need an actual list with the order reversed.
+
+we'll get more into the details of iterators and iterables later in the class.
 
 =================
 A little warm up
@@ -127,13 +242,15 @@ Fun with strings
 
     - for an arbitrary number of numbers...
 
-* Write a format string that will take:
+===============
+Lightning Talks
+===============
 
-    -  ``( 2, 123.4567, 10000)``
-
-    -       and produce:
-
-    - `` "file_002 :   123.46, 1e+04" ``
+|
+| Isaac Cowhey
+|
+| Paul G Anderson
+|
 
 =====================
 Dictionaries and Sets
@@ -175,7 +292,7 @@ Dictionary Constructors
 Dictionary Indexing
 -------------------
 ::
-    
+
     >>> d = {'name': 'Brian', 'score': 42}
 
     >>> d['score']
@@ -264,7 +381,7 @@ Dictionaries have no defined order
     In [353]: d
     Out[353]: {'one': 1, 'three': 3, 'two': 2}
     In [354]: d.keys()
-    Out[354]: ['three', 'two', 'one']
+    Out[354]: dict_keys(['three', 'two', 'one'])
 
 Dictionary Iterating
 --------------------
@@ -275,9 +392,9 @@ Dictionary Iterating
 
 	In [15]: d = {'name': 'Brian', 'score': 42}
 
-	In [16]: for x in d:                       
-	    print x
-	   ....:     
+	In [16]: for x in d:
+	    print(x)
+	   ....:
 	score
 	name
 
@@ -292,13 +409,13 @@ dict keys and values
 	In [20]: d = {'name': 'Brian', 'score': 42}
 
 	In [21]: d.keys()
-	Out[21]: ['score', 'name']
+	Out[21]: dict_keys(['score', 'name'])
 
 	In [22]: d.values()
-	Out[22]: [42, 'Brian']
+	Out[22]: dict_values([42, 'Brian'])
 
 	In [23]: d.items()
-	Out[23]: [('score', 42), ('name', 'Brian')]
+	Out[23]: dict_items([('score', 42), ('name', 'Brian')])
 
 
 dict keys and values
@@ -311,13 +428,13 @@ Iterating on everything
 	In [26]: d = {'name': 'Brian', 'score': 42}
 
 	In [27]: for k, v in d.items():
-	    print "%s: %s" % (k,v)
-	   ....:     
+	    print("%s: %s" % (k,v))
+	   ....:
 	score: 42
 	name: Brian
 
 
-Dictionary Performance 
+Dictionary Performance
 -----------------------
 
   * indexing is fast and constant time: O(1)
@@ -339,7 +456,7 @@ Other dict operations:
 
 See them all here:
 
-https://docs.python.org/2/library/stdtypes.html#mapping-types-dict
+https://docs.python.org/3/library/stdtypes.html#mapping-types-dict
 
 Is it in there?
 
@@ -369,8 +486,8 @@ But you can specify a default
 
 .. code-block:: ipython
 
-  In [11]: d.get(u'something', u'a default')
-  Out[11]: u'a default'
+  In [11]: d.get('something', 'a default')
+  Out[11]: 'a default'
 
 Never raises an Exception (default default is None)
 
@@ -380,23 +497,34 @@ iterating
 
 .. code-block:: ipython
 
-  In [13]: for item in d.iteritems():
-     ....:     print item
-     ....:     
-  ('this', 5)
-  ('that', 7)
-  In [15]: for key in d.iterkeys():
-      print key
-     ....:     
+  In [13]: for item in d:
+     ....:     print(item)
+     ....:
   this
   that
-  In [16]: for val in d.itervalues():
-      print val
-     ....:     
+
+which is equivalent to, but faster than:
+
+.. code-block:: ipython
+
+  In [15]: for key in d.keys():
+      print(key)
+     ....:
+  this
+  that
+
+.. nextslide::
+
+but to get values, must specify you want values:
+
+.. code-block:: ipython
+
+  In [16]: for val in d.values():
+      print(val)
+     ....:
   5
   7
 
-the ``iter*`` methods don't actually create the lists.
 
 .. nextslide::
 
@@ -432,39 +560,51 @@ gets the value if it's there, sets it if it's not
 
 .. code-block:: ipython
 
-  In [27]: d.setdefault(u'something', u'a value')
-  Out[27]: u'a value'
+  In [27]: d.setdefault('something', 'a value')
+  Out[27]: 'a value'
 
   In [28]: d
-  Out[28]: {u'something': u'a value'}
+  Out[28]: {'something': 'a value'}
 
-  In [29]: d.setdefault(u'something', u'a value')
-  Out[29]: u'a value'
-
-  In [30]: d
-  Out[30]: {u'something': u'a value'}
 
 .. nextslide::
 
-dict View objects:
-
-Like ``keys()``, ``values()``, ``items()``, but maintain a link to the original dict
+Assignment maintains link to the original dict
 
 .. code-block:: ipython
 
   In [47]: d
-  Out[47]: {u'something': u'a value'}
+  Out[47]: {'something': 'a value'}
 
-  In [48]: item_view = d.viewitems()
+  In [48]: item_view = d
 
-  In [49]: d['something else'] = u'another value'
+  In [49]: d['something else'] = 'another value'
 
   In [50]: item_view
-  Out[50]: dict_items([('something else', u'another value'), (u'something', u'a value')])
+  Out[50]: {'something': 'a value', 'something else': 'another value'}
 
 
+.. nextslide::
 
-Sets 
+Use explicit copy method to get a copy
+
+.. code-block:: ipython
+
+  In [51] item_copy = d.copy()
+
+  In [52]: d['another thing'] = 'different value'
+
+  In [53]: d
+  Out[53]:
+  {'another thing': 'different value',
+   'something': 'a value',
+   'something else': 'another value'}
+
+   In [54]: item_copy
+   Out[54]: {'something': 'a value', 'something else': 'another value'}
+
+
+Sets
 -----
 
 ``set``  is an unordered collection of distinct values
@@ -476,19 +616,19 @@ Set Constructors
 .. code-block:: ipython
 
     >>> set()
-    set([])
+    set()
 
     >>> set([1, 2, 3])
-    set([1, 2, 3])
+    {1, 2, 3}
 
     >>> {1, 2, 3}
-    set([1, 2, 3])
+    {1, 2, 3}
 
     >>> s = set()
 
     >>> s.update([1, 2, 3])
     >>> s
-    set([1, 2, 3])
+    {1, 2, 3}
 
 
 Set Properties
@@ -536,13 +676,13 @@ All the "set" operations from math class...
     s.isdisjoint(other)
 
     s.issubset(other)
-    
+
     s.union(other, ...)
-    
+
     s.intersection(other, ...)
-    
+
     s.difference(other, ...)
-    
+
     s.symmetric_difference( other, ...)
 
 Frozen Set
@@ -562,209 +702,22 @@ immutable -- for use as a key in a dict
     AttributeError: 'frozenset' object has no attribute 'add'
 
 
-==========
-Exceptions
-==========
+LAB: Dictionaries and Sets lab
+==============================
 
-Exceptions
-----------
+Have some fun with dictionaries and sets!
 
-Another Branching structure:
+:ref:`exercise_dict_lab`
 
-.. code-block:: python
 
-    try:
-        do_something()
-        f = open('missing.txt')
-        process(f)   # never called if file missing
-    except IOError:
-        print "couldn't open missing.txt"
+Lightning Talks
+---------------
 
-Exceptions
-----------
-Never Do this:
-
-.. code-block:: python
-
-    try:
-        do_something()
-        f = open('missing.txt')
-        process(f)   # never called if file missing
-    except:
-        print "couldn't open missing.txt"
-
-
-Exceptions
-----------
-
-Use Exceptions, rather than your own tests:
-
-Don't do this:
-
-.. code-block:: python
-
-    do_something()
-    if os.path.exists('missing.txt'):
-        f = open('missing.txt')
-        process(f)   # never called if file missing
-
-It will almost always work -- but the almost will drive you crazy
-
-.. nextslide::
-
-Example from homework
-
-.. code-block:: python
-
-    if num_in.isdigit():
-        num_in = int(num_in)
-
-but -- ``int(num_in)`` will only work if the string can be converted to an integer.
-
-So you can do
-
-.. code-block:: python
-
-    try:
-        num_in = int(num_in)
-    except ValueError:
-        print u"Input must be an integer, try again."
-
-Or let the Exception be raised....
-
-
-.. nextslide:: EAFP
-
-
-"it's Easier to Ask Forgiveness than Permission"
-
- -- Grace Hopper
-
-
-http://www.youtube.com/watch?v=AZDWveIdqjY
-
-(Pycon talk by Alex Martelli)
-
-.. nextslide:: Do you catch all Exceptions?
-
-For simple scripts, let exceptions happen.
-
-Only handle the exception if the code can and will do something about it.
-
-(much better debugging info when an error does occur)
-
-
-Exceptions -- finally
----------------------
-
-.. code-block:: python
-
-    try:
-        do_something()
-        f = open('missing.txt')
-        process(f)   # never called if file missing
-    except IOError:
-        print "couldn't open missing.txt"
-    finally:
-        do_some_clean-up
-
-The ``finally:``  clause will always run
-
-
-Exceptions -- else
--------------------
-
-.. code-block:: python
-
-    try:
-        do_something()
-        f = open('missing.txt')
-    except IOError:
-        print "couldn't open missing.txt"
-    else:
-        process(f) # only called if there was no exception
-
-Advantage:
-
-you know where the Exception came from
-
-Exceptions -- using them
-------------------------
-
-.. code-block:: python
-
-    try:
-        do_something()
-        f = open('missing.txt')
-    except IOError as the_error:
-        print the_error
-        the_error.extra_info = "some more information"
-        raise
-
-
-Particularly useful if you catch more than one exception:
-
-.. code-block:: python
-
-    except (IOError, BufferError, OSError) as the_error:
-        do_something_with (the_error)
-
-
-Raising Exceptions
--------------------
-
-.. code-block:: python
-
-    def divide(a,b):
-        if b == 0:
-            raise ZeroDivisionError("b can not be zero")
-        else:
-            return a / b
-
-
-when you call it:
-
-.. code-block:: ipython
-
-    In [515]: divide (12,0)
-    ZeroDivisionError: b can not be zero
-
-
-Built in Exceptions
--------------------
-
-You can create your own custom exceptions
-
-But...
-
-.. code-block:: python
-
-    exp = \
-     [name for name in dir(__builtin__) if "Error" in name]
-    len(exp)
-    32
-
-
-For the most part, you can/should use a built in one
-
-.. nextslide::
-
-Choose the best match you can for the built in Exception you raise.
-
-Example (for last week's ackerman homework)::
-
-  if (not isinstance(m, int)) or (not isinstance(n, int)):
-      raise ValueError
-
-Is it the *value* or the input the problem here?
-
-Nope: the *type* is the problem::
-
-  if (not isinstance(m, int)) or (not isinstance(n, int)):
-      raise TypeError
-
-but should you be checking type anyway? (EAFP)
-
+|
+| Abdishu Hagi
+|
+| Enrique R Silva
+|
 
 ========================
 File Reading and Writing
@@ -777,16 +730,13 @@ Text Files
 
 .. code-block:: python
 
-    import io
-    f = io.open('secrets.txt', codec='utf-8')
+    f = open('secrets.txt')
     secret_data = f.read()
     f.close()
 
-``secret_data`` is a (unicode) string
+``secret_data`` is a string
 
-``codec`` defaults to ``sys.getdefaultencoding()`` -- often NOT what you want.
-
-(There is also the regular ``open()`` built in, but it won't handle Unicode for you...)
+NOTE: these days, you probably need to use Unicode for text -- we'll get to that next week
 
 .. nextslide::
 
@@ -794,11 +744,11 @@ Binary Files
 
 .. code-block:: python
 
-    f = io.open('secrets.bin', 'rb')
+    f = open('secrets.bin', 'rb')
     secret_data = f.read()
     f.close()
 
-``secret_data``  is a byte string
+``secret_data`` is a byte string
 
 (with arbitrary bytes in it -- well, not arbitrary -- whatever is in the file.)
 
@@ -812,15 +762,15 @@ File Opening Modes
 
 .. code-block:: python
 
-    f = io.open('secrets.txt', [mode])
+    f = open('secrets.txt', [mode])
     'r', 'w', 'a'
     'rb', 'wb', 'ab'
     r+, w+, a+
     r+b, w+b, a+b
-    U
-    U+
 
-These follow the Unix conventions, and aren't all that well documented on the Python docs. But these BSD docs make it pretty clear:
+
+These follow the Unix conventions, and aren't all that well documented
+in the Python docs. But these BSD docs make it pretty clear:
 
 http://www.manpagez.com/man/3/fopen/
 
@@ -833,35 +783,12 @@ Text is default
   * Newlines are translated: ``\r\n -> \n``
   *   -- reading and writing!
   * Use \*nix-style in your code: ``\n``
-  * ``io.open()`` returns various "stream" objects -- but they act like file objects.
-  * In text mode, io.open() defaults to "Universal" newline mode.
 
 
 Gotcha:
 
   * no difference between text and binary on \*nix
   * breaks on Windows
-
-
-.. nextslide:: Other parameters to ``io.open()``:
-
-``io.open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True)``
-
- * ``file`` is generally a file name or full path
-
- * ``mode`` is the mode for opening: 'r', 'w', etc.
-
- * ``buffering`` controls the buffering mode (0 for no buffering)
-
- * ``encoding`` sets the unicode encoding -- only for text files -- when set, you can ONLY write unicode object to the file.
-
- * ``errors`` sets the encoding error mode: 'strict', 'ignore', 'replace',...
-
- * ``newline`` controls Universal Newline mode: lets you write DOS-type files on \*nix, for instance (text mode only).
-
- * ``closedfd`` controls close()  behavior if a file descriptor, rather than a name is passed in (advanced usage!)
-
-(https://docs.python.org/2/library/io.html?highlight=io.open#io.open)
 
 
 File Reading
@@ -884,19 +811,31 @@ Common Idioms
 
 .. code-block:: python
 
-    for line in io.open('secrets.txt'):
-        print line
+    for line in open('secrets.txt'):
+        print(line)
 
 (the file object is an iterator!)
 
 .. code-block:: python
 
-    f = io.open('secrets.txt')
+    f = open('secrets.txt')
     while True:
         line = f.readline()
         if not line:
             break
         do_something_with_line()
+
+.. nextslide::
+
+We will learn more about the keyword with later, but for now, just understand
+the syntax and the advantage over the try-finally block:
+
+.. code-block:: python
+
+ with open('workfile', 'r') as f:
+     read_data = f.read()
+ f.closed
+ True
 
 
 File Writing
@@ -904,9 +843,14 @@ File Writing
 
 .. code-block:: python
 
-    outfile = io.open('output.txt', 'w')
+    outfile = open('output.txt', 'w')
     for i in range(10):
         outfile.write("this is line: %i\n"%i)
+    outfile.close()
+
+    with open('output.txt', 'w'):
+        for i in range(10):
+           f.write("this is line: %i\n"%i)
 
 
 File Methods
@@ -920,41 +864,31 @@ Commonly Used Methods
 
     f.write(str) f.writelines(seq)
 
-    f.seek(offset)   f.tell()
-
-    f.flush()
+    f.seek(offset)   f.tell() # for binary files, mostly
 
     f.close()
-
-
-File Like Objects
------------------
-
-
-Many classes implement the file interface:
-
-  * loggers
-  * ``sys.stdout``
-  * ``urllib.open()``
-  * pipes, subprocesses
-  * StringIO
-
-https://docs.python.org/2/library/stdtypes.html#file-objects
 
 StringIO
 --------
 
 .. code-block:: python
 
-    In [417]: import StringIO
-    In [420]: f = StringIO.StringIO()
-    In [421]: f.write(u"somestuff")
+    In [417]: import io
+    In [420]: f = io.StringIO()
+    In [421]: f.write("somestuff")
     In [422]: f.seek(0)
     In [423]: f.read()
     Out[423]: 'somestuff'
+    Out[424]: stuff = f.getvalue()
+    Out[425]: f.close()
 
 (handy for testing file handling code...)
 
+There is also cStringIO -- a bit faster.
+
+.. code-block:: python
+
+    from cStringIO import StringIO
 
 =====================
 Paths and Directories
@@ -969,14 +903,14 @@ Relative paths:
 
 .. code-block:: python
 
-    u'secret.txt'
-    u'./secret.txt'
+    'secret.txt'
+    './secret.txt'
 
 Absolute paths:
 
 .. code-block:: python
 
-    u'/home/chris/secret.txt'
+    '/home/chris/secret.txt'
 
 
 Either work with ``open()`` , etc.
@@ -988,10 +922,10 @@ os module
 
 .. code-block:: python
 
-    os.getcwd() -- os.getcwdu() (u for Unicode)
-    chdir(path)
+    os.getcwd()
+    os.chdir(path)
     os.path.abspath()
-    os.path.relpath()￼
+    os.path.relpath()
 
 
 .. nextslide:: os.path module
@@ -1020,15 +954,9 @@ os module
 pathlib
 -------
 
-``pathlib`` is a new package for handling paths in an OO way:
+``pathlib`` is a package for handling paths in an OO way:
 
 http://pathlib.readthedocs.org/en/pep428/
-
-It is now part of the Python3 standard library, and has been back-ported for use with Python2:
-
-.. code-block:: bash
-
-    $ pip install pathlib
 
 All the stuff in os.path and more:
 
@@ -1039,12 +967,22 @@ All the stuff in os.path and more:
     In [66]: pth.is_dir()
     Out[66]: True
     In [67]: pth.absolute()
-    Out[67]: PosixPath('/Users/Chris/PythonStuff/CodeFellowsClass/sea-f2-python-sept14/Examples/Session04')
+    Out[67]: PosixPath('/Users/Chris/PythonStuff/UWPCE/IntroPython2015')
     In [68]: for f in pth.iterdir():
-                 print f
+                 print(f)
     junk2.txt
     junkfile.txt
     ...
+
+===
+LAB
+===
+
+Files Lab: If there is time.
+
+:ref:`exercise_file_lab`
+
+
 
 =========
 Homework
@@ -1052,111 +990,21 @@ Homework
 
 Recommended Reading:
 ---------------------
-  * Dive Into Python: Chapt. 13,14
-  * Unicode: http://www.joelonsoftware.com/articles/Unicode.html
+
+  * Dive Into Python 3: Chapt. 2.7 (and 4 if you haven't already)
+
+http://www.diveintopython3.net/native-datatypes.html#dictionaries
+
+  * Dive Into Python 3: Chapt. 11
+
+http://www.diveintopython3.net/files.html
+
 
 Assignments:
 -------------
 
- * dict/sets lab
- * coding kata: trigrams
- * Exceptions
- * Update mailroom with dicts.
+ * Finish the dict/sets lab: :ref:`exercise_dict_lab`
+ * Finish the files lab: :ref:`exercise_file_lab`
+ * Coding kata: trigrams: :ref:`exercise_trigrams`
 
-
-Dictionaries and Sets
----------------------
-
-1.
-
-* Create a dictionary containing "name", "city", and "cake" for "Chris" from "Seattle" who likes "Chocolate".
-
-* Display the dictionary.
-
-* Delete the entry for "cake".
-
-* Display the dictionary.
-
-* Add an entry for "fruit" with "Mango" and display the dictionary.
-
-  - Display the dictionary keys.
-  - Display the dictionary values.
-  - Display whether or not "cake" is a key in the dictionary (i.e. False) (now).
-  - Display whether or not "Mango" is a value in the dictionary.
-
-.. nextslide::
-
-2.
-
-* Using the dict constructor and zip, build a dictionary of numbers from zero to fifteen and the hexadecimal equivalent (string is fine).
-
-3.
-
-* Using the dictionary from item 1: Make a dictionary using the same keys but with the number of 'a's in each value.
-
-.. nextslide:: sets
-
-4.
-
-* Create sets s2, s3 and s4 that contain numbers from zero through twenty, divisible 2, 3 and 4.
-
-* Display the sets.
-
-* Display if s3 is a subset of s2 (False)
-
-* and if s4 is a subset of s2 (True).
-
-5.
-
-* Create a set with the letters in 'Python' and add 'i' to the set.
-
-* Create a frozenset with the letters in 'marathon'
-
-* display the union and intersection of the two sets.
-
-
-Text and files and dicts, and...
----------------------------------
-
-  * Coding Kata 14 - Dave Thomas
-
-    http://codekata.com/kata/kata14-tom-swift-under-the-milkwood/
-
-    and in this doc:
-
-    http://codefellows.github.io/sea-c15-python/supplements/kata_fourteen.html
-
-  * Use The Adventures of Sherlock Holmes as input:
-
-        http://codefellows.github.io/sea-c15-python/_downloads/sherlock.txt
-
-  *  This is intentionally open-ended and underspecified. There are many interesting decisions to make.
-
-  * Experiment with different lengths for the lookup key. (3 words, 4 words, 3 letters, etc)
-
-Exceptions
------------
-
-Improving ``raw_input``
-
-* The ``raw_input()``  function can generate two exceptions: ``EOFError``  or ``KeyboardInterrupt``  on end-of-file(EOF) or canceled input.
-
-* Create a wrapper function, perhaps ``safe_input()``  that returns ``None``  rather rather than raising these exceptions, when the user enters ``^C``  for Keyboard Interrupt, or ``^D`` (``^Z``  on Windows) for End Of File.
-
-* Update your mailroom program to use exceptions (and IBAFP) to handle malformed numeric input
-
-
-Paths and File Processing
---------------------------
-
-  * write a program which prints the full path to all files in the current directory, one per line
-
-  * write a program which copies a file from a source, to a destination (without using shutil, or the OS copy command)
-
-  * update mailroom from last weeks homework to:
-
-    - use dicts where appropriate
-    - write a full set of letters to everyone to individual files on disk
-    - see if you can use a dict to switch between the users selections
-    - Try to use a dict and the .format() method to do the letter as one big template -- rather than building up a big string in parts.
-
+ * update mailroom with dicts :ref:`exercise_mailroom_plus`

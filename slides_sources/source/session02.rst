@@ -1,22 +1,13 @@
-********************************************
-Session Two: Functions, Booleans and Modules
-********************************************
+.. include:: include.rst
 
-.. ifslides::
-
-    .. rst-class:: center large
-
-    Oh My!
-
-
+****************************************************
+Session Two: gitHub, Functions, Booleans and Modules
+****************************************************
 
 Review/Questions
 ================
 
-Review of Previous Session
---------------------------
-
-.. rst-class:: build
+.. rst-class:: left medium
 
   * Values and Types
   * Expressions
@@ -27,69 +18,321 @@ Homework Review
 
 .. rst-class:: center large
 
-Any questions that are nagging?
+  Any questions that are nagging?
+
+Lightning Talks Today:
+----------------------
+
+.. rst-class: medium
 
 
-Git Work
-========
+|
+| David E Tobey
+|
+| Sharmila Muralidharan
+|
+| Shu A Latif
+|
+| Spencer G McGhin
 
-.. rst-class:: center large
+Class Outline
+-------------
 
-Let's get to know your fellow students!
+ * git / gitHub primer
+ * Exercise: :ref:`exercise_grid_printer`
+ * Decisions, Decisions.
+ * Exercise: :ref:`exercise_fizz_buzz`
+ * More on functions
+ * Exercise: :ref:`exercise_fibonacci`
+ * Boolean Expressions
+ * Code Structure, Modules, and Namespaces
+
+First a little git Primer...
+==============================
+
+Let's get to know git a bit
 
 
-Working with an Upstream
-------------------------
+Why Version Control?
+--------------------
 
-You've created a fork of the class repository from the ``codefellows`` account
-on GitHub.
+.. figure:: /_static/phd101212s.gif
+   :class: fill
+   :width: 45 %
 
-You've pushed your own changes to that fork, and then issued pull requests to
-have that worked merged back to the ``codefellows`` original.
+.. ifnotslides::
 
-You want to keep your fork up-to-date with that original copy as the class goes
-forward.
+   "Piled Higher and Deeper" by Jorge Cham
 
-To do this, you use the git concept of an **upstream** repository.
+   www.phdcomics.com
 
-.. nextslide::
+What is git?
+------------
+.. rst-class:: build
 
-Since ``git`` is a *distributed* versioning system, there is no **central**
-repository that serves as the one to rule them all.
+.. container::
 
-Instead, you work with *local* repositories, and *remotes* that they are
-connected to.
+    A "version control system"
 
-Cloned repositories get an *origin* remote for free:
+    A history of everything everyone does to 'your' code
+
+    A graph of "states" in which the code has existed
+
+    That last one is a bit tricky, and is not necessary to understand right out of the gate. When you are ready, you can look at this supplement to gain a better understanding:
+
+    :ref: http://uwpce-pythoncert.github.io/PythonResources/DevEnvironment/git_overview.html
+
+Setting up git
+--------------
+
+You should have git installed on your machine and accessible from the command line. There will be a little bit of setup for git that you should only have to do once.
 
 .. code-block:: bash
 
-    $ git remote -v
-    origin  https://github.com/PythonCHB/sea-f2-python-sept14.git (fetch)
-    origin  https://github.com/PythonCHB/sea-f2-python-sept14.git (push)
+    $ git config --global user.name "Marie Curie"
+    $ git config --global user.email "marie@radioactive.com"
 
-This shows that the local repo on my machine *originated* from the one in my gitHub account (the one it was cloned from)
+Editor
+------
+
+* git needs an editor occasionally
+* default is VI, which is not very intuitive to non-Unix Geeks
+* Nano is simple, easy solution for Macs and Linux
+* Nano no longer available for windows, use Sublime or Notepad++
+
+
+For Windows users:
+ http://uwpce-pythoncert.github.io/PythonResources/Installing/git_editor_windows.html
+
+.. nextslide::
+
+Once you have chosen/installed an editor, configure git to use it:
+
+nano
+``$ git config --global core.editor "nano -w"``
+
+sublime (mac)
+``$ git config --global core.editor "subl -n -w"``
+
+sublime (win)
+``$ git config --global core.editor "'c:/program files/sublime text 2/sublime_text.exe' -w"``
+
+Notepad++ (Win)
+``$ git config --global core.editor "'c:/program files (x86)/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"``
+
+Repositories
+------------
+
+A repository is just a collection of files that 'belong together'.
+
+Since ``git`` is a *distributed* versioning system, there is no **central**
+repository that serves as the one to rule them all. This simply means that all repositories should look the same.
+
+However, to keep things sane, there is generally one "central" repository chosen that users check with for changes, for us this is GitHub.
+
+
+Working with Remotes
+--------------------
+
+With git, you work with *local* repositories and *remotes* that they are connected to.
+
+.. rst-class:: build
+.. container::
+
+    Git uses shortcuts to address *remotes*. Cloned repositories get an *origin* shortcut for free:
+
+    .. code-block:: bash
+
+        $ git remote -v
+        origin  https://github.com/UWPCE-PythonCert/IntroPython2016.git (fetch)
+        origin  https://github.com/UWPCE-PythonCert/IntroPython2016.git (push)
+
+    This shows that the local repo on my machine *originated* from the one in
+    the UWPCE-PythonCert gitHub account (it shows up twice, because I there is
+    a shortcut for both fetch from and push to this remote)
+
+.. nextslide::
+
+.. rst-class:: build
+.. container::
+
+    You can work on any project you wish to that has a public repository on Github. However, since you won't have permission to edit most projects directly, there is such a thing as *forking* a project.
+
+    When you *fork* a repository, you make a copy of that repository in your own (Github) account.
+
+    When you have made changes that you believe the rest of the community will want to adopt, you make a *pull request* to the original project. The maintainer(s) of that project than have the option of accepting your changes, in which case your changes will become part of that project.
+
+    This is how we will be working in this class. When you want feedback on your work, you will make a *pull request* to the instructors.
+
+.. nextslide::
+
+Our class materials reside in a repository on *Github* in the *UWPCE-PythonCert* organization:
+
+.. figure:: /_static/remotes_start.png
+    :width: 50%
+    :class: center
+
+.. nextslide::
+
+Note that this is not the same repository as the class materials.
+
+It will be a repository that is created just for this class, and will be called IntroPython*quarter*.
+
+In examples below it is called IntroToPython, so replace that in your head with the name of this year's repository. :)
+
+We will create this repository now.
+
+.. nextslide::
+
+This new repository will include examples and we will add relevant materials (and exercise solutions) to it throughout the quarter.
+
+There will be a folder called students at the top level, and everyone will create their own directory within it.
+
+So, everyone will commit to this repository, and everyone will have access to everyone's code.
+
+This will make it easier to collaborate.
+
+We will do a live demo of setting up a machine now.
+
+.. nextslide::
+
+We will now create a fork of the class repository from the ``UWPCE-PythonCert``
+account on GitHub into your personal account. This is done on the GitHub website.
+
+Let's pause now to let you all create a gitHub account if you don't have one already.
+
+.. figure:: /_static/remotes_fork.png
+    :width: 50%
+    :class: center
+
+.. nextslide::
+
+The next step is to make a *clone* of your fork on your own computer, which means that **your fork** in github is the *origin* (Demo):
+
+.. figure:: /_static/remotes_clone.png
+    :width: 50%
+    :class: center
+
+.. nextslide::
+
+We will now set up our individual folders and include a README in this folder.
+
+
+.. rst-class:: build
+.. container::
+
+    .. code-block:: bash
+
+        $ cd IntroPythonXXXX
+        $ git status
+
+    .. code-block:: bash
+
+        $ git pull origin master
+
+    .. code-block:: bash
+
+        $ cd students
+
+    .. code-block:: bash
+
+        $ mkdir maria_mckinley
+
+    .. code-block:: bash
+
+        $ cd maria_mckinley
+
+    .. code-block:: bash
+
+        $ echo "# Python code for UWPCE-PythonCert class" >> README.rst
+
+.. nextslide::
+
+.. rst-class:: build
+.. container::
+
+    Check the status
+
+    .. code-block:: bash
+
+        $ git status
+
+    Add anything you want to commit to your commit:
+
+    .. code-block:: bash
+
+        $ git add README.rst
+
+    Make your commit:
+
+    .. code-block:: bash
+
+        $ git commit -m 'added a readme file'
+
+
+.. nextslide::
+
+Push your changes:
+
+  .. code-block:: bash
+
+      $ git push origin master
+
+  origin is the default name given by git refering to the server you cloned
+  (in this case your github repository)
+
+  master is the branch that you are currently pushing to that server
+
+  Go onto GitHub, and make a pull request!
+
+  (This will be a pull request from a fork rather than from a branch)
+
+  https://help.github.com/articles/creating-a-pull-request-from-a-fork/
+
+
+.. nextslide::
+
+You've pushed your own changes to that fork, and then issued pull requests to have that work merged back to the ``UWPCE-PythonCert`` original.
+
+.. rst-class:: build
+.. container::
+
+    You want to keep your fork up-to-date with that original copy as the class
+    goes forward.
+
+    To do this, you add a new *remote* repository to your local clone.
 
 .. nextslide:: Adding a Remote
 
 You can add *remotes* at will, to connect your *local* repository to other
 copies of it in different remote locations.
 
-This allows you to grab changes made to the repository in these other
-locations.
+.. rst-class:: build
+.. container::
 
-For our class, we will add an *upstream* remote to our local copy that points
-to the original copy of the material in the ``codefellows`` account.
+    This allows you to grab changes made to the repository in these other
+    locations.
 
-.. code-block:: bash
+    For our class, we will add an *upstream* remote to our local copy that points to the original copy of the material in the ``UWPCE-PythonCert`` account, and we will call it, appropriately, "upstream"
 
-  $ git remote add upstream https://github.com/codefellows/sea-f2-python-sept14.git
+    .. code-block:: bash
 
-  $ git remote -v
-  origin  https://github.com/PythonCHB/sea-f2-python-sept14.git (fetch)
-  origin  https://github.com/PythonCHB/sea-f2-python-sept14.git (push)
-  upstream  https://github.com/codefellows/sea-f2-python-sept14.git (fetch)
-  upstream  https://github.com/codefellows/sea-f2-python-sept14.git (push)
+        $ git remote add upstream https://github.com/UWPCE-PythonCert/IntroPython2015.git
+
+        $ git remote -v
+        origin  https://github.com/PythonCHB/IntroPython2015.git (fetch)
+        origin  https://github.com/PythonCHB/IntroPython2015.git (push)
+        upstream    https://github.com/UWPCE-PythonCert/IntroPython2015.git (fetch)
+        upstream    https://github.com/UWPCE-PythonCert/IntroPython2015.git (push)
+
+.. nextslide::
+
+This should leave you in a situation that looks like this:
+
+.. figure:: /_static/remotes_upstream.png
+    :width: 50%
+    :class: center
+
 
 .. nextslide:: Fetching Everything.
 
@@ -109,12 +352,8 @@ Then you can see the branches you have locally available:
   $ git branch -a
   * master
     remotes/origin/HEAD -> origin/master
-    remotes/origin/gh-pages
     remotes/origin/master
-    remotes/upstream/gh-pages
     remotes/upstream/master
-
-(the gh-pages branch is used to publish these notes)
 
 .. nextslide:: Fetching Upstream Changes
 
@@ -126,20 +365,16 @@ Start by making sure you are on your own master branch:
 
     $ git checkout master
 
-This is **really really** important.  Take the time to ensure you are where you
-think you are.
+This is **really really** important.  Take the time to ensure you are where you think you are, iow, not on a remote. Use git status to find out where you are, if necesary.
 
 .. nextslide:: Merging Upstream Changes
 
-Then, fetch the upstream master branch and merge it into your master:
+Then, fetch the upstream master branch and merge it into your master.
+You can do this in one step with:
 
 .. code-block:: bash
 
-  $ git fetch upstream master
-  From https://github.com/codefellows/sea-f2-python-sept14
-   * branch            master     -> FETCH_HEAD
-
-  $ git merge upstream/master
+  $ git pull upstream master
   Updating 3239de7..9ddbdbb
   Fast-forward
    Examples/README.rst              |  4 ++++
@@ -147,15 +382,11 @@ Then, fetch the upstream master branch and merge it into your master:
    create mode 100644 Examples/README.rst
   ...
 
-NOTE: you can do that in one step with:
-
-.. code-block:: bash
-
-  $ git pull upstream master
 
 .. nextslide:: Pushing to Origin
 
 Now all the changes from *upstream* are present in your local clone.
+You should do this pull everytime you start to work on code.
 
 In order to preserve them in your fork on GitHub, you'll have to push:
 
@@ -176,93 +407,152 @@ In order to preserve them in your fork on GitHub, you'll have to push:
 
 You can incorporate this into your daily workflow: ::
 
+    [make sure you are on correct branch]
     $ git checkout master
+    [get any changes from class repository]
     $ git pull upstream master
-    $ git push
-    [do some work]
-    $ git commit -a 
+    [make sure you are in your student directory, do work]
+    [verify you are happy with changes]
+    $ git status
+    [add your changes to what will be committed]
+    $ git add .
     [add a good commit message]
+    $ git commit -m 'I wrote some Python.'
+    [push your changes to your remote github account]
     $ git push
-    [make a pull request]
+    [make a pull request on the GitHub website]
 
-Quick Intro to Basics
-=====================
 
-.. rst-class:: center large
+.. nextslide:: Note
+
+Because of the way we have set up the class, you will be able
+to see all work submitted to us from everyone in the class in
+the students directory on your machine. This is not a bad thing.
+And the files tend to be small.
+
+We encourage sharing of knowledge in this class. Helping your
+fellow students will also help you to better understand. Share
+your code, and get use to giving/receiving feedback on how to
+improve your code, if you are not already.
+
+
+LAB: Grid Printer
+=================
+
+.. rst-class:: left
+
+    With only the ability to do a bit with numbers and text, you should be
+    able to do this little project:
+
+    :ref:`exercise_grid_printer`
+
+Getting Started:
+----------------
+
+Lets use git and gitHub to manage this project:
+
+Start by putting a python file in your clone of the class gitHub project:
+
+.. code-block:: bash
+
+  $ cd my_personal_directory
+  $ mkdir session_02
+  $ cd session_02
+  $ touch grid_printer.py
+  $ git add grid_printer.py
+
+Then put your code in grid_printer.py
+
+Committing your code
+--------------------
+
+When your code does something useful, you can commit it.
+
+First check the status:
+
+.. code-block:: bash
+
+  $ git status
+
+If it's what you expect, you can commit and push:
+
+.. code-block:: bash
+
+  $ git commit -a -m "first version"
+  $ git push
+
+And when you want us to take a look, you can go to gitHub and do a "Pull Request"
+(make sure you commit and push first)
+
+
+Committing your code
+--------------------
+
+Commit early and often.
+
+
+Lightning Talk:
+---------------
+
+.. rst-class:: center medium
+
+David E Tobey
+
+
+Beyond Printing
+================
+
+.. rst-class:: center medium
 
 Because there's a few things you just gotta have
 
 Basics
 ------
 
-It turns out you can't really do much at all without at least a container type,
-conditionals and looping...
+You really can't really do much at all without at least
+conditionals, looping, and a container type...
 
 
-.. nextslide:: if
+Making a Decision
+------------------
 
-``if`` and ``elif`` allow you to make decisions:
+**"Conditionals"**
+
+``if`` and ``elif`` (else if) allow you to make decisions:
 
 .. code-block:: python
 
     if a:
-        print 'a'
+        print('a')
     elif b:
-        print 'b'
+        print('b')
     elif c:
-        print 'c'
+        print('c')
     else:
-        print 'that was unexpected'
+        print('that was unexpected')
 
 
 .. nextslide:: if
 
-What's the difference between these two:
+What's the difference between these two?
 
 .. code-block:: python
 
     if a:
-        print 'a'
+        print('a')
     elif b:
-        print 'b'
+        print('b')
+
     ## versus...
     if a:
-        print 'a'
+        print('a')
     if b:
-        print 'b'
+        print('b')
 
 
-.. nextslide:: switch?
 
-Many languages have a ``switch`` construct:
-
-.. code-block:: js
-
-    switch (expr) {
-      case "Oranges":
-        document.write("Oranges are $0.59 a pound.<br>");
-        break;
-      case "Apples":
-        document.write("Apples are $0.32 a pound.<br>");
-        break;
-      case "Mangoes":
-      case "Papayas":
-        document.write("Mangoes and papayas are $2.79 a pound.<br>");
-        break;
-      default:
-        document.write("Sorry, we are out of " + expr + ".<br>");
-    }
-
-.. nextslide:: switch?
-
-**Not Python**
-
-use ``if..elif..elif..else`` 
-
-(or a dictionary, or subclassing....)
-
-
-.. nextslide:: lists
+Lists
+-----
 
 A way to store a bunch of stuff in order
 
@@ -273,8 +563,10 @@ Pretty much like an "array" or "vector" in other languages
     a_list = [2,3,5,9]
     a_list_of_strings = ['this', 'that', 'the', 'other']
 
+You can put any type of object in a list...
 
-.. nextslide:: tuples
+Tuples
+-------
 
 Another way to store an ordered list of things
 
@@ -283,24 +575,27 @@ Another way to store an ordered list of things
     a_tuple = (2,3,4,5)
     a_tuple_of_strings = ('this', 'that', 'the', 'other')
 
+You can also put any type of object in a tuple...
+(sense a theme here?)
 
 Tuples are **not** the same as lists.
 
 The exact difference is a topic for next session.
 
 
-.. nextslide:: for
+``for`` loops
+--------------
 
 Sometimes called a 'determinate' loop
 
-When you need to do something to everything in a sequence
+When you need to do something to all the objects in a sequence
 
 .. code-block:: ipython
 
     In [10]: a_list = [2,3,4,5]
 
     In [11]: for item in a_list:
-       ....:     print item
+       ....:     print(item)
        ....:
     2
     3
@@ -308,24 +603,26 @@ When you need to do something to everything in a sequence
     5
 
 
-.. nextslide:: range() and for
+``range()`` and for
+-------------------
 
-Range builds lists of numbers automatically
+``range`` builds sequences of numbers automatically
 
 Use it when you need to do something a set number of times
 
 .. code-block:: ipython
 
-    In [12]: range(6)
-    Out[12]: [0, 1, 2, 3, 4, 5]
-
-    In [13]: for i in range(6):
-       ....:     print "*",
+    In [31]: for i in range(4):
+        print('*', end=' ')
        ....:
-    * * * * * *
+    * * * *
 
 
-.. nextslide:: Intricacies
+NOTE: ``range(n)`` creates an "iterable" -- something you can loop over
+-- more on that later.
+
+Intricacies
+------------
 
 This is enough to get you started.
 
@@ -334,20 +631,39 @@ Each of these have intricacies special to python
 We'll get to those over the next couple of classes
 
 
-Functions
-=========
+LAB: Fizz Buzz
+===============
 
-Review
-------
+.. rst-class:: left
+
+    We now have the tools to do a implementation of the classic "Fizz Buzz" problem:
+
+    :ref:`exercise_fizz_buzz`
+
+    Do the same git / gitHub dance with this, too!
+
+
+Lightning Talk:
+---------------
+
+.. rst-class:: center medium
+
+Sharmila Muralidharan
+
+
+More on Functions
+=================
+
+Variable scope
+--------------
 
 Defining a function:
 
 .. code-block:: python
 
     def fun(x, y):
-        z = x+y
+        z = x + y
         return z
-
 
 x, y, z are *local* names
 
@@ -355,7 +671,7 @@ x, y, z are *local* names
 Local vs. Global
 ----------------
 
-Symbols bound in Python have a *scope*
+Names bound in Python have a *scope*
 
 That *scope* determines where a symbol is visible, or what value it has in a
 given block.
@@ -366,7 +682,7 @@ given block.
     In [15]: y = 33
     In [16]: z = 34
     In [17]: def fun(y, z):
-       ....:     print x, y, z
+       ....:     print(x, y, z)
        ....:
     In [18]: fun(3, 4)
     32 3 4
@@ -390,8 +706,8 @@ But, did the value of y and z change in the *global* scope?
 
 In general, you should use global bindings mostly for constants.
 
-In python we designate global constants by typing the symbols we bind to them
-in ALL_CAPS
+The python convention is to designate global constants by typing the
+symbols we bind to them in ALL_CAPS
 
 .. code-block:: python
 
@@ -402,7 +718,8 @@ in ALL_CAPS
 This is just a convention, but it's a good one to follow.
 
 
-.. nextslide:: Global Gotcha
+Global Gotcha
+--------------
 
 Take a look at this function definition:
 
@@ -413,8 +730,8 @@ Take a look at this function definition:
     In [22]: def f():
        ....:     y = x
        ....:     x = 5
-       ....:     print x
-       ....:     print y
+       ....:     print(x)
+       ....:     print(y)
        ....:
 
 What is going to happen when we call ``f``
@@ -425,18 +742,18 @@ Try it and see:
 
 .. code-block:: ipython
 
-    In [23]: f()
+    In [34]: f()
     ---------------------------------------------------------------------------
     UnboundLocalError                         Traceback (most recent call last)
-    <ipython-input-23-0ec059b9bfe1> in <module>()
+    <ipython-input-34-0ec059b9bfe1> in <module>()
     ----> 1 f()
 
-    <ipython-input-22-9225fa53a20a> in f()
+    <ipython-input-33-4363b2b69f73> in f()
           1 def f():
     ----> 2     y = x
           3     x = 5
-          4     print x
-          5     print y
+          4     print(x)
+          5     print(y)
 
     UnboundLocalError: local variable 'x' referenced before assignment
 
@@ -452,7 +769,7 @@ So far we've seen simple parameter lists:
 .. code-block:: python
 
     def fun(x, y, z):
-        print x, y, z
+        print(x, y, z)
 
 These types of parameters are called *positional*
 
@@ -467,7 +784,7 @@ You can provide *default values* for parameters in a function definition:
 .. code-block:: ipython
 
     In [24]: def fun(x=1, y=2, z=3):
-       ....:     print x, y, z
+       ....:     print(x, y, z)
        ....:
 
 When parameters are given with default values, they become *optional*
@@ -511,29 +828,6 @@ provide any *positional* arguments:
         fun(x=5, 6)
     SyntaxError: non-keyword arg after keyword arg
 
-.. nextslide:: Parameters and Unpacking
-
-This brings us to a fun feature of Python function definitions.
-
-You can define a parameter list that requires an **unspecified** number of
-*positional* or *keyword* arguments.
-
-The key is the ``*`` (splat) or ``**`` (double-splat) operator:
-
-.. code-block:: ipython
-
-    In [31]: def fun(*args, **kwargs):
-       ....:     print args, kwargs
-       ....:
-    In [32]: fun(1)
-    (1,) {}
-    In [33]: fun(1, 2, zombies="brains")
-    (1, 2) {'zombies': 'brains'}
-    In [34]: fun(1, 2, 3, zombies="brains", vampires="blood")
-    (1, 2, 3) {'vampires': 'blood', 'zombies': 'brains'}
-
-**args** and **kwargs** are *conventional* names for these.
-
 
 Documentation
 -------------
@@ -546,8 +840,6 @@ This can help reduce the number of `WTFs per minute`_ in reading it later.
 .. _WTFs per minute: http://www.osnews.com/story/19266/WTFs_m
 
 There are two approaches to this:
-
-.. rst-class:: build
 
 * Comments
 * Docstrings
@@ -568,11 +860,11 @@ You can use them to mark places you want to revisit later:
 .. code-block:: python
 
     for partygoer in partygoers:
-        for baloon in baloons:
+        for balloon in balloons:
             for cupcake in cupcakes:
                 # TODO: Reduce time complexity here.  It's killing us
                 #  for large parties.
-                resolve_party_favor(partygoer, baloon, cupcake)
+                resolve_party_favor(partygoer, balloon, cupcake)
 
 .. nextslide:: Comments
 
@@ -590,10 +882,12 @@ This is not useful:
         # apply soap to each sponge
         worker.apply_soap(sponge)
 
-.. nextslide:: Docstrings
+Note: Nothing special about Python here -- basic good programing practice.
 
-In Python, ``docstrings`` are used to provide in-line documentation in a number
-of places.
+Docstrings
+----------
+
+In Python, ``docstrings`` are used to provide in-line documentation in a number of places.
 
 The first place we will see is in the definition of ``functions``.
 
@@ -611,24 +905,23 @@ header, it is a ``docstring``:
 You can then read this in an interpreter as the ``__doc__`` attribute of the
 function object.
 
-.. nextslide:: Docstrings
+.. nextslide::
 
 A ``docstring`` should:
 
-.. rst-class:: build
 
-* be a complete sentence in the form of a command describing what the function
+* Be a complete sentence in the form of a command describing what the function
   does.
 
   * """Return a list of values based on blah blah""" is a good docstring
   * """Returns a list of values based on blah blah""" is *not*
 
-* fit onto a single line.
+* Have a useful single line.
 
   * If more description is needed, make the first line a complete sentence and
     add more lines below for enhancement.
 
-* be enclosed with triple-quotes.
+* Be enclosed with triple-quotes.
 
   * This allows for easy expansion if required at a later date
   * Always close on the same line if the docstring is only one line.
@@ -658,8 +951,7 @@ Recursion is especially useful for a particular set of problems.
 
 For example, take the case of the *factorial* function.
 
-In mathematics, the *factorial* of an integer is the result of multiplying that
-integer by every integer smaller than it down to 1.
+In mathematics, the *factorial* of an integer is the result of multiplying that integer by every integer smaller than it down to 1.
 
 ::
 
@@ -673,26 +965,46 @@ We can use a recursive function nicely to model this mathematical function
 
     [demo]
 
+``assert``
+----------
 
-In-Class Lab:
-=============
+Writing ``tests`` that demonstrate that your program works is an important part of learning to program.
 
-.. rst-class:: center large
+The python ``assert`` statement is useful in writing simple tests
+for your code.
 
-Fun With Functions
+.. code-block:: ipython
 
-Exercises
----------
+    In [1]: def add(n1, n2):
+       ...:     return n1 + n2
+       ...:
 
-Try your hand at writing a function that computes the distance between two
-points::
+    In [2]: assert add(3, 4) == 7
 
-    dist = sqrt( (x1-x2)**2 + (y1-y2)**2 )
+    In [3]: assert add(3, 4) == 10
 
-Experiment with ``locals`` by adding this statement to the function you just
-wrote:::
+    ---------------------------------------------------------------------
+    AssertionError                     Traceback (most recent call last)
+    <ipython-input-3-6731d4ac4476> in <module>()
+    ----> 1 assert add(3, 4) == 10
 
-    print locals()
+    AssertionError:
+
+
+LAB: Fibonacci
+==============
+
+Let's write a few functions in class:
+
+:ref:`exercise_fibonacci`
+
+
+Lightning Talk:
+---------------
+
+.. rst-class:: center medium
+
+Shu A Latif
 
 
 Boolean Expressions
@@ -703,11 +1015,11 @@ Truthiness
 
 What is true or false in Python?
 
-.. rst-class:: build
+* The Booleans: ``True``  and ``False``
 
-* The Booleans: ``True``  and ``False`` 
 * "Something or Nothing"
-*  http://mail.python.org/pipermail/python-dev/2002-April/022107.html 
+
+*  http://mail.python.org/pipermail/python-dev/2002-April/022107.html
 
 
 .. nextslide::
@@ -719,36 +1031,37 @@ Determining Truthiness:
     bool(something)
 
 
-.. nextslide:: What is False?
+What is False?
+--------------
 
-.. rst-class:: build
+* ``None``
 
-* ``None`` 
-* ``False`` 
+* ``False``
+
 * **Nothing:**
 
-* zero of any numeric type: ``0, 0L, 0.0, 0j``.
-* any empty sequence, for example, ``"", (), []``.
-* any empty mapping, for example, ``{}`` .
-* instances of user-defined classes, if the class defines a ``__nonzero__()``
-  or ``__len__()`` method, when that method returns the integer zero or bool
-  value ``False``.
+    - Zero of any numeric type: ``0, 0L, 0.0, 0j``.
+    - Any empty sequence, for example, ``"", (), []``.
+    - Any empty mapping, for example, ``{}`` .
+    - Instances of user-defined classes, if the class defines a ``__nonzero__()`` or ``__len__()`` method, when that method returns the integer zero or bool value ``False``.
 
 * http://docs.python.org/library/stdtypes.html
 
-.. nextslide:: What is True?
+What is True?
+-------------
 
 .. rst-class:: center large
 
 Everything Else
 
 
-.. nextslide:: Pythonic Booleans
+Pythonic Booleans
+-----------------
 
 Any object in Python, when passed to the ``bool()`` type object, will
 evaluate to ``True`` or ``False``.
 
-When you use the ``if`` keyword, it automatically does this to the statement provided.
+When you use the ``if`` keyword, it automatically does this to the expression provided.
 
 Which means that this is redundant, and not Pythonic:
 
@@ -768,8 +1081,8 @@ Instead, use what Python gives you:
         do_something()
 
 
-and, or and not
-----------------
+``and``, ``or`` and ``not``
+---------------------------
 
 Python has three boolean keywords, ``and``, ``or`` and ``not``.
 
@@ -816,12 +1129,12 @@ statements:
                          else return x
 
                       if x is false,
-    x and y               return  x
-                          else return y
+    x and y              return  x
+                         else return y
 
                       if x is false,
-    not x               return True,
-                        else return False
+    not x                return True,
+                         else return False
 
 
 .. nextslide:: Chaining
@@ -836,12 +1149,13 @@ The first value that defines the result is returned
 
 .. ifslides::
 
-    .. rst-class:: centered
+    .. rst-class:: centered large
 
     (demo)
 
 
-.. nextslide:: Ternary Expressions
+Ternary Expressions
+-------------------
 
 This is a fairly common idiom:
 
@@ -869,7 +1183,7 @@ PEP 308:
 Boolean Return Values
 ---------------------
 
-Remember this puzzle from your CodingBat exercises?
+Remember this puzzle from the CodingBat exercises?
 
 .. code-block:: python
 
@@ -925,29 +1239,26 @@ And you can even do math with them (though it's a bit odd to do so):
     (demo)
 
 
-In-Class Lab:
+Lightning Talk:
+---------------
+
+.. rst-class:: center medium
+
+Spencer G McGhin
+
+
+LAB: Booleans
 =============
 
-.. rst-class:: center large
+.. rst-class:: left
 
-Better With Booleans
+    Working with Booleans, Ternary Expressions, etc:
 
-Exercises
----------
+    Re-write a couple CodingBat exercises, returning the direct boolean results, and/or using ternary expressions.
 
-  * Look up the ``%``  operator. What do these do?
+    Experiment with ``locals`` by adding this statement one of the functions you wrote today::
 
-    * ``10 % 7 == 3``
-    * ``14 % 7 == 0``
-  *  Write a program that prints the numbers from 1 to 100 inclusive. But for
-     multiples of three print "Fizz" instead of the number and for the
-     multiples of five print "Buzz". For numbers which are multiples of both
-     three and five print "FizzBuzz" instead.
-  * Re-write a couple of CodingBat exercises, using a conditional expression
-  * Re-write a couple of CodingBat exercises, returning the direct boolean results
-
-use whichever you like, or the ones in:
-:download:`codingbat.rst <../code/session02/codingbat.rst>`
+        print(locals())
 
 
 Code Structure, Modules, and Namespaces
@@ -983,7 +1294,7 @@ You can put a one-liner after the colon:
 .. code-block:: ipython
 
     In [167]: x = 12
-    In [168]: if x > 4: print x
+    In [168]: if x > 4: print(x)
     12
 
 But this should only be done if it makes your code **more** readable.
@@ -1077,7 +1388,8 @@ inside it.
     (demo)
 
 
-.. nextslide:: importing from packages
+importing from packages
+-----------------------
 
 .. code-block:: python
 
@@ -1093,7 +1405,7 @@ inside it.
 
 http://effbot.org/zone/import-confusion.htm
 
-.. nextslide:: importing from packages
+.. nextslide::
 
 .. code-block:: python
 
@@ -1104,21 +1416,22 @@ http://effbot.org/zone/import-confusion.htm
 **Don't do this!**
 
 
-Import
-------
+``import``
+----------
 
 When you import a module, or a symbol from a module, the Python code is
 *compiled* to **bytecode**.
 
 The result is a ``module.pyc`` file.
 
-This process **executes all code at the module scope**.
+Then after compiling, all the code in the module is run **at the module scope**.
 
 For this reason, it is good to avoid module-scope statements that have global
 side-effects.
 
 
-.. nextslide:: Re-import
+Re-import
+----------
 
 The code in a module is NOT re-run when imported again
 
@@ -1126,8 +1439,8 @@ It must be explicitly reloaded to be re-run
 
 .. code-block:: python
 
-    import modulename
-    reload(modulename)
+    import importlib
+    importlib.reload(modulename)
 
 .. ifslides::
 
@@ -1150,7 +1463,7 @@ There are a few ways to do this:
 * ``In [149]: run hello.py``     -- at the IPython prompt -- running a module brings its names into the interactive namespace
 
 
-.. nextslide:: Running a Module
+.. nextslide
 
 Like importing, running a module executes all statements at the module level.
 
@@ -1161,8 +1474,7 @@ is the same as the filename.
 
 When you *run* a module, the value of the symbol ``__name__`` is ``__main__``.
 
-This allows you to create blocks of code that are executed *only when you run a
-module*
+This allows you to create blocks of code that are executed *only when you run a module*
 
 .. code-block:: python
 
@@ -1174,7 +1486,7 @@ module*
 
 This is useful in a number of cases.
 
-You can put code here that lets your module be a utility script
+You can put code here that lets your module be a utility *script*
 
 You can put code here that demonstrates the functions contained in your module
 
@@ -1185,39 +1497,11 @@ You can put code here that proves that your module works.
     [demo]
 
 
-.. nextslide:: ``Assert``
-
-Writing ``tests`` that demonstrate that your program works is an important part
-of learning to program.
-
-The python ``assert`` statement is useful in writing ``main`` blocks that test
-your code.
-
-.. code-block:: ipython
-
-    In [1]: def add(n1, n2):
-       ...:     return n1 + n2
-       ...:
-
-    In [2]: assert add(3, 4) == 7
-
-    In [3]: assert add(3, 4) == 10
-    ---------------------------------------------------------------------------
-    AssertionError                            Traceback (most recent call last)
-    <ipython-input-3-6731d4ac4476> in <module>()
-    ----> 1 assert add(3, 4) == 10
-
-    AssertionError:
-
-In-Class Lab
-============
 
 Import Interactions
+-------------------
 
-Exercises
----------
-
-Experiment with importing different ways:
+Let's experiment with importing different ways:
 
 .. code-block:: ipython
 
@@ -1257,10 +1541,9 @@ Experiment with importing different ways:
 .. code-block:: python
 
     import sys
-    print sys.path
+    print(sys.path)
     import os
-    print os.path
-
+    print(os.path)
 
 You wouldn't want to import * those!
 
@@ -1271,109 +1554,48 @@ You wouldn't want to import * those!
     os.path.split('/foo/bar/baz.txt')
     os.path.join('/foo/bar', 'baz.txt')
 
+
+Next Class
+==========
+
+.. rst-class left
+
+* Sequences
+* Iteration
+* Strings and String Formatting
+
+* Lightning talks by:
+
+  - Beatrice He
+  - Bradley I Baumel
+  - Jerry Bearer
+  - Sheree Pena
+
+
+Office hours: Sunday 10:00 -- 12:00
+
+
 Homework
-========
+---------
 
-You have two tasks to complete by next class:
+Review and/or finish reading these class notes.
 
-Task 1
-------
+Finish any labs from class....
 
-The Ackermann function, A(m, n), is defined::
+**Reading:**
 
-    A(m, n) =
-        n+1   if  m = 0
-        A(m−1, 1)   if  m > 0  and  n = 0
-        A(m−1, A(m, n−1))   if  m > 0  and  n > 0.
+Think Python, chapters 8, 9, 10, 12
 
-See http://en.wikipedia.org/wiki/Ackermann_function.
+(http://greenteapress.com/thinkpython/html/thinkpython009.html)
 
-Create a new module called ``ack.py`` in a ``session02`` folder in your student folder. In that module, write a function named ``ack`` that performs Ackermann's function.
+Learn Python the Hard way: exercises 11 -- 14, 18, 19, 21, 28-33
+(the ones in between are about files -- we'll get to that later.)
 
-* Write a good ``docstring`` for your function according to PEP 257.
-* Ackermann's function is not defined for input values less than 0.  Validate
-  inputs to your function and return None if they are negative.
+http://learnpythonthehardway.org/book/ex11.html
 
-.. nextslide::
+NOTE: In python3, you use ``input``, rather than ``raw_input``
 
-The wikipedia page provides a table of output values for inputs between 0 and
-4. Using this table, add a ``if __name__ == "__main__":`` block to test your
-function.
+Dive Into Python: chapter 4
 
-Test each pair of inputs between 0 and 4 and assert that the result produced by
-your function is the result expected by the wikipedia table.
+(http://www.diveintopython3.net/strings.html)
 
-When your module is run from the command line, these tests should be executed.
-If they all pass, print "All Tests Pass" as the result.
-
-Add your new module to your git clone and commit frequently while working on
-your implementation. Include good commit messages that explain concisely both
-*what* you are doing and *why*.
-
-When you are finished, push your changes to your fork of the class repository
-in GitHub. Then make a pull request and submit your assignment in Canvas.
-
-::
-
-    - Adapted from "Think Python": Chapter 6, exercise 5.
-
-Task 2
-------
-
-The `Fibonacci Series`_ is a numeric series starting with the integers 0 and 1.
-In this series, the next integer is determined by summing the previous two.
-This gives us::
-
-    0, 1, 1, 2, 3, 5, 8, 13, ...
-
-Create a new module ``series.py`` in the ``session02`` folder in your student folder. In it, add a function called ``fibonacci``. The function should have one parameter ``n``. The function should return the ``nth`` value in the fibonacci series.
-
-Ensure that your function has a well-formed ``docstring``
-
-.. _Fibonacci Series: http://en.wikipedia.org/wiki/Fibbonaci_Series
-
-.. nextslide::
-
-The `Lucas Numbers`_ are a related series of integers that start with the
-values 2 and 1 rather than 0 and 1. The resulting series looks like this::
-
-    2, 1, 3, 4, 7, 11, 18, 29, ...
-
-.. _Lucas Numbers: http://en.wikipedia.org/wiki/Lucas_number
-
-In your ``series.py`` module, add a new function ``lucas`` that returns the
-``nth`` value in the *lucas numbers*
-
-Ensure that your function has a well-formed ``docstring``
-
-.. nextslide::
-
-Both the *fibonacci series* and the *lucas numbers* are based on an identical
-formula.
-
-Add a third function called ``sum_series`` with one required parameter and two
-optional parameters. The required parameter will determine which element in the
-series to print. The two optional parameters will have default values of 0 and
-1 and will determine the first two values for the series to be produced.
-
-Calling this function with no optional parameters will produce numbers from the
-*fibonacci series*.  Calling it with the optional arguments 2 and 1 will
-produce values from the *lucas numbers*. Other values for the optional
-parameters will produce other series.
-
-Ensure that your function has a well-formed ``docstring``
-
-.. nextslide::
-
-Add an ``if __name__ == "__main__":`` block to the end of your ``series.py``
-module. Use the block to write a series of ``assert`` statements that
-demonstrate that your three functions work properly.
-
-Use comments in this block to inform the observer what your tests do.
-
-Add your new module to your git clone and commit frequently while working on
-your implementation. Include good commit messages that explain concisely both
-*what* you are doing and *why*.
-
-When you are finished, push your changes to your fork of the class repository
-in GitHub. Then make a pull request and submit your assignment in Canvas.

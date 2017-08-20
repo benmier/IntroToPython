@@ -1,9 +1,16 @@
+.. include:: include.rst
+
 **************************
 Session One: Introductions
 **************************
 
-| In which you are introduced to this class, your instructors, your environment
-| and your new best friend, Python.
+Introductions
+=============
+
+In which you are introduced to this class, your instructors, your environment,
+and your new best friend, Python.
+
+|
 
 .. image:: /_static/python.png
     :align: center
@@ -14,6 +21,17 @@ Session One: Introductions
 `xkcd.com/353`_
 
 .. _xkcd.com/353: http://xkcd.com/353
+
+Goals for Session One:
+======================
+
+* Meet each other, set expectations for the class.
+
+* Schedule lightning talks.
+
+* Get you all up and running with Python
+
+* Start having fun with Python with a quick tutorial
 
 Introductions
 =============
@@ -26,37 +44,39 @@ In which we meet each-other
 Your instructors
 ----------------
 
-.. rst-class:: center large
+.. rst-class:: center medium
 
-| Christopher Barker
-| (PythonCHB at gmail dot com)
+| |instructor_1_name|
+| |instructor_1_email|
 |
 
 .. nextslide::
 
-.. rst-class:: center large
+.. rst-class:: center medium
 
-| Nathan Savage
-| (nathansavagemail at gmail dot com)
+| |instructor_2_name|
+| |instructor_2_email|
 |
 
 Who are you?
 -------------
 
-.. rst-class:: center large
+.. rst-class:: center medium
 
   Tell us a tiny bit about yourself:
 
 * name
-* programming background
-* what do you hope to get from this class
+* programming background: what languages have you used?
+* neighbor's name
+* neighbor's favorite coffee shop or bar
+
 
 Introduction to This Class
 ==========================
 
 .. rst-class:: center large
 
-Intro to Python
+  Introduction to Python
 
 
 Course Materials Online
@@ -66,27 +86,29 @@ A rendered HTML copy of the slides for this course may be found online at:
 
 http://uwpce-pythoncert.github.io/IntroToPython
 
-Also there are same homework descriptions and supplemental materials.
+Also there are some exercise descriptions and supplemental materials.
 
 The source of these materials are in the class gitHub repo:
 
 https://github.com/UWPCE-PythonCert/IntroToPython
 
-Class email list: We will be using this list to communicate for this class:
+We also have a bunch of supplemental resources for the program here:
 
-programming-in-python@googlegroups.com
+http://uwpce-pythoncert.github.io/PythonResources/index.html
 
-You should have (or will soon) received and email invitation to join
-the mailing list.
+The source for those is here:
 
+https://github.com/UWPCE-PythonCert/PythonResources
 
 Class Structure
 ---------------
 
 Class Time:
 
- *  Some lecture, lots of demos
+ * Some lecture -- as little as possible
+ * Lots of demos
  * Lab time: lots of hand-on practice
+   - Take a break if you need one then...
  * Lather, Rinse, Repeat.....
 
 Interrupt me with questions -- please!
@@ -94,89 +116,65 @@ Interrupt me with questions -- please!
 (Some of the best learning prompted by questions)
 
 Homework:
-----------
+---------
 
-* Assigned at each class
+* Homework will be reading, exercises, and the occasional Video
+
+* Exercises will be started in class -- but you can finish them at home.
 
 * You are adults -- it's up to you to do it
 
-* You can do a gitHub "pull request" if you want us to review it.
+* You can do a gitHub "pull request" if you want us to review your work.
 
-* I'll review at the next class
+    - We'll show you how to do that in the second session
 
 
-Mailing list and Office Hours
-------------------------------
+Communication
+-------------
 
-We've set up a google group -- you will all be invited to join::
+**Mailing list:**
+
+We've set up a Google Group for this class:
 
 programming-in-python@googlegroups.com
 
-Office Hours:
+We will be using this list to communicate with you. You should have (or will soon) received an email invitation to join the mailing list.
 
-I generally will hold "office hours" at a coffee shop for a couple hours each
-weekend.
+Slack: We have set up a slack channel for discussions. Anything python related is fair game.
 
-Nathan can do some as well.
+https://python2016fall.slack.com/
+
+We highly encourage you to work together. You will learn at a much deeper level if you work together,
+and it gets you ready to collaborate with colleagues.
+
+
+Office Hours
+------------
+
+We will generally will hold "office hours" at a coffee shop for a couple hours
+each weekend.
+
+Please feel free to attend even if you do not have a specific question.
+It is an opportunity to work with the instructors and fellow students,
+and learn from each other.
 
 What are good times for you?
 
-
+And what locations?
 
 Lightning Talks
 ----------------
 
-Lightning Talks:
+**Lightning Talks:**
 
- * 5 minutes (including setup) - no kidding!
+ * 5 minutes each (including setup) - no kidding!
  * Every student will give one
- * Purposes: introduce yourself, share interests, also show Python applications
- * Any topic you like, that is related to Python -- according to you!
-
-We need to schedule them -- let's use Python for that!
+ * Purposes: introduce yourself, share interests, show Python applications
+ * Any topic you like that is related to Python -- according to you!
 
 
 Python Ecosystem
------------------
-
-Python is  Used for:
-
- * CS education (this course!)
- * Application scripting (GIS, GNU Radio, Blender...)
- * Systems administration and "glue"
- * Web applications (Django etc. etc. etc.)
- * Scientific/technical computing (a la MATLAB, R, .... )
- * Software tools (automated software testing, distributed version control, ...)
- * Research (natural language, graph theory, distributed computing, ...)
-
-An unusually large number of niches -- versatile
-
-.. nextslide::
-
-Used by:
-
-* Beginners
-* Professional software developers, computer system administrators, ...
-* Professionals OTHER THAN computer specialists: biologists, urban planners, ....
-
-An unusually large number of types of users -- versatile
-
-You can be productive in Python WITHOUT full-time immersion!
-
-
-Python Features
----------------
-
-Gets many things right:
-
-* Readable -- looks nice, makes sense
-* No ideology about best way to program --  object-oriented programming,  functional, etc.
-* No platform preference -- Windows, Mac, Linux, ...
-* Easy to connect to other languages -- C, Fortran - essential for science/math
-* Large standard library
-* Even larger network of external packages
-* Countless conveniences, large and small, make it pleasant to work with
-
+================
 
 What is Python?
 ---------------
@@ -188,7 +186,6 @@ What is Python?
 * Byte-compiled
 * Interpreted
 
-
 .. nextslide::
 
 .. rst-class:: center large
@@ -198,8 +195,6 @@ But what does that mean?
 
 Python Features
 ---------------
-
-Features:
 
 .. rst-class:: build
 
@@ -291,25 +286,26 @@ Python 3.x ("py3k")
 
 .. nextslide::
 
-This class uses Python 2.7 not Python 3.x
-
-.. rst-class:: build
+This class uses Python 3 -- not Python 2
 
 * Adoption of Python 3 is growing fast
 
-  * A few key packages still not supported (https://python3wos.appspot.com/)
-  * Most code in the wild is still 2.x
+  * Almost all key packages now supported (https://python3wos.appspot.com/)
+  * But much code in the wild is still 2.x
 
-* You *can* learn to write Python that is forward compatible from 2.x to 3.x
-* We will be teaching from that perspective.
+* If you find yourself needing to work with Python 2 and 3, there are ways to write compatible code:
 
-* If you find yourself needing to work with Python 2 and 3, there are ways to write compatible code: https://wiki.python.org/moin/PortingPythonToPy3k
+https://wiki.python.org/moin/PortingPythonToPy3k
+
+* We will cover that more later in the program. Also: a short intro to the differences you really need to know about up front later this session.
 
 
 Introduction to Your Environment
 ================================
 
 There are three basic elements to your environment when working with Python:
+
+.. rst-class:: left
 
 .. rst-class:: build
 
@@ -323,70 +319,142 @@ Your Command Line (cli)
 
 Having some facility on the command line is important
 
-We won't cover this in class, so if you are not comfortable, please bone up at
-home.
+We won't cover this much in class, so if you are not comfortable,
+please bone up at home.
 
-I suggest running through the **cli** tutorial at "learn code the hard way":
+We have some resources here: `PythonResources--command line <http://uwpce-pythoncert.github.io/PythonResources/DevEnvironment/command_line.html>`_
 
-`http://cli.learncodethehardway.org/book`_
+**Windows:**
 
-.. _http://cli.learncodethehardway.org/book: http://cli.learncodethehardway.org/book
+Most of the demos in class, etc, will be done using the "bash" command line shell on OS-X. This is identical to the bash shell on Linux.
 
+Windows provides the "DOS" command line, which is OK, but pretty old and limited, or "Power Shell" -- a more modern, powerful, flexible command shell.
 
-.. nextslide:: Command Line Enhancements
+If you are comfortable with either of these -- go for it.
 
-There are a few things you can do to help make your command line a better place
-to work.
-
-Part of your homework this week will be to do these things.
-
-More on this later.
+If not, you can use the "git Bash" shell -- which is much like the bash shell on OS-X and Linux. Or, on Windows 10, look into the "bash shell for Windows" otherwise known as the "Linux system" - - more info here: `PythonResources--Windows Bash  <http://uwpce-pythoncert.github.io/PythonResources/DevEnvironment/windows_bash.html>`_
 
 
-Your Interpreter
-----------------
+LAB: Getting set up
+-------------------
 
-Python comes with a built-in interpreter.
+Before we move on -- we need to get all of us on the same page, with the tools we need for class.
 
-You see it when you type ``python`` at the command line:
+You will find instructions for how to get python, etc, up and running on your machine here:
 
-.. code-block:: pycon
+**Windows:**
 
-    $ python
-    Python 2.7.5 (default, Aug 25 2013, 00:04:04)
-    [GCC 4.2.1 Compatible Apple LLVM 5.0 (clang-500.0.68)] on darwin
-    Type "help", "copyright", "credits" or "license" for more information.
-    >>>
+http://uwpce-pythoncert.github.io/PythonResources/Installing/python_for_windows.html
 
-That last thing you see, ``>>>`` is the "Python prompt".
+**OS-X:**
 
-This is where you type code.
+http://uwpce-pythoncert.github.io/PythonResources/Installing/python_for_mac.html
+
+**Linux:**
+
+http://uwpce-pythoncert.github.io/PythonResources/Installing/python_for_linux.html
+
+We'll run through some of that together.
+
+If you already have a working environment, please feel free to help your neighbor or look at the Python Resources pages, particularly reviewing/learning the shell and git.
+
+http://uwpce-pythoncert.github.io/PythonResources
+
+Our Class Environment
+---------------------
+
+We are going to work from a common environment in this class.
+
+We will take the time here in class to get this going.
+
+This helps to ensure that you will be able to work.
 
 
-.. nextslide:: Python in the Interpreter
+Step 1: Python 3
+------------------
+
+.. rst-class:: medium
+
+  Do you already have this??
+
+.. code-block:: bash
+
+  $ python
+  Python 3.6.1 (v3.5.2:4def2a2901a5, Jun 26 2016, 10:47:25)
+  [GCC 4.2.1 (Apple Inc. build 5666) (dot 3)] on darwin
+  Type "help", "copyright", "credits" or "license" for more information.
+  >>>
+
+If not, or you have an older version -- let's install it!
+
+If you're all ready to go -- take this time to get started on a tutorial:
+
+http://uwpce-pythoncert.github.io/PythonResources/GeneralPython/learning.html#getting-started-tutorials
+
+
+Step 2: Pip
+-----------
+
+Python comes with quite a bit ("batteries included").
+
+Sometimes you need a bit more.
+
+Pip allows you to install Python packages to expand your system.
+
+The previous instructions include pip as well - make sure it's working.
+
+Once you've installed pip, you use it to install Python packages by name:
+
+.. code-block:: bash
+
+    $ python -m pip install foobar
+    ...
+
+To find packages (and their proper names), you can search the python
+package index (PyPI):
+
+https://pypi.python.org/pypi
+
+
+Step 3: Install iPython
+------------------------
+
+As this is an intro class, we are going to use almost entirely features
+of the standard library. But there are a couple things you may want:
+
+**iPython** is an "enhanced python shell" -- it make s it easier to work with python interactively.
+
+.. code-block:: bash
+
+  $ python -m pip install ipython[all]
+
+
+Python in the Interpreter
+-------------------------
 
 Try it out:
 
-.. code-block:: pycon
+.. code-block:: python
 
-    >>> print u"hello world!"
+    >>> print("hello world!")
     hello world!
     >>> 4 + 5
     9
     >>> 2 ** 8 - 1
     255
-    >>> print u"one string" + u" plus another"
+    >>> print ("one string" + " plus another")
     one string plus another
     >>>
 
 
 .. nextslide:: Tools in the Interpreter
 
-When you are in an interpreter, there are a number of tools available to you.
+When you are in an interpreter, there are a number of tools available to
+you.
 
 There is a help system:
 
-.. code-block:: pycon
+.. code-block:: python
 
     >>> help(str)
     Help on class str in module __builtin__:
@@ -405,9 +473,9 @@ You can type ``q`` to exit the help viewer.
 You can also use the ``dir`` builtin to find out about the attributes of a
 given object:
 
-.. code-block:: pycon
+.. code-block:: python
 
-    >>> bob = u"this is a string"
+    >>> bob = "this is a string"
     >>> dir(bob)
     ['__add__', '__class__', '__contains__', '__delattr__',
      '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__',
@@ -436,8 +504,7 @@ Your Editor
 
 Typing code in an interpreter is great for exploring.
 
-But for anything "real", you'll want to save the work you are doing in a more permanent
-fashion.
+But for anything "real", you'll want to save the work you are doing in a more permanent fashion.
 
 This is where an Editor fits in.
 
@@ -449,7 +516,7 @@ MS Word is **not** a text editor.
 
 Nor is *TextEdit* on a Mac.
 
-``Notepad`` is a text editor -- but a crappy one.
+``Notepad`` on Windows is a text editor -- but a crappy one.
 
 You need a real "programmers text editor"
 
@@ -457,7 +524,6 @@ A text editor saves only what it shows you, with no special formatting
 characters hidden behind the scenes.
 
 .. nextslide:: Minimum Requirements
-
 
 At a minimum, your editor should have:
 
@@ -472,28 +538,29 @@ In addition, great features to add include:
 
 * Tab completion
 * Code linting
-* Jump-to-definition
-* Interactive follow-along for debugging
 
 Have an editor that does all this? Feel free to use it.
 
-If not, I suggest ``Sublime Text``:
+If not, I suggest ``SublimeText``: http://www.sublimetext.com/
 
-http://www.sublimetext.com/
+(Use version 3, even though it's "beta")
 
+http://uwpce-pythoncert.github.io/PythonResources/DevEnvironment/sublime_as_ide.html
+
+"Atom" is another good open source option.
+
+And, of course, vi or Emacs on Linux, if you are familiar with those.
 
 Why No IDE?
 -----------
 
 I am often asked this question.
 
-An IDE does not give you much that you can't get with a good editor plus a good
-interpreter.
+An IDE does not give you much that you can't get with a good editor plus a good interpreter.
 
 An IDE often weighs a great deal
 
-Setting up IDEs to work with different projects can be challenging and
-time-consuming.
+Setting up IDEs to work with different projects can be challenging and time-consuming.
 
 Particularly when you are first learning, you don't want too much done for you.
 
@@ -504,127 +571,6 @@ Particularly when you are first learning, you don't want too much done for you.
 YAGNI
 
 
-Setting Up Your Environment
-===========================
-
-.. rst-class:: centered large
-
-Shared setup means reduced complications.
-
-
-Our Class Environment
----------------------
-
-We are going to work from a common environment in this class.
-
-We will take the time here in class to get this going.
-
-This helps to ensure that you will be able to work.
-
-
-Step 1: Python 2.7
-------------------
-
-.. rst-class:: large
-
-You have this already, RIGHT?
-
-.. code-block:: bash
-
-    $ python
-    Python 2.7.5 (default, Aug 25 2013, 00:04:04)
-    [GCC 4.2.1 Compatible Apple LLVM 5.0 (clang-500.0.68)] on darwin
-    Type "help", "copyright", "credits" or "license" for more information.
-    >>> ^D
-    $
-
-If not:
-
- * `For the mac  <./supplements/python_for_mac.html>`_
-
- * `For linux  <./supplements/python_for_linux.html>`_
-
- * `For windows  <./supplements/python_for_windows.html>`_
-
-Step 2: Pip
------------
-
-Python comes with quite a bit ("batteries included").
-
-Sometimes you need a bit more.
-
-Pip allows you to install Python packages to expand your system.
-
-You install it by downloading and then executing an installer script:
-
-.. code-block:: bash
-
-    $ curl -O https://bootstrap.pypa.io/get-pip.py
-    % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-    100 1309k  100 1309k    0     0   449k      0  0:00:02  0:00:02 --:--:--  449k
-
-    $ python get-pip.py
-
-(or go to: http://pip.readthedocs.org/en/latest/installing.html)
-
-.. nextslide:: Using Pip
-
-Once you've installed pip, you use it to install Python packages by name:
-
-.. code-block:: bash
-
-    $ pip install foobar
-    ...
-
-To find packages (and their proper names), you can search the python package index (PyPI):
-
-https://pypi.python.org/pypi
-
-
-Step 4: Clone Class Repository
-------------------------------
-
-`gitHub <www.github.com>`_ is an industry-standard system for collaboration
-on software projects -- particularly open source ones.
-
-Next, you'll make a copy of the class repository using ``git``.
-
-The canonical copy is in the UWPCE organization on GitHub:
-
-https://github.com/UWPCE-PythonCert/IntroToPython
-
-Open that URL, and look for: "HTTPS clone URL"
-
-You can click in there an copy and paste to get the clone url.
-
-At your command line, run the following commands:
-
-.. code-block:: bash
-
-    $ cd your_working_directory_for_the_class
-    $ git clone https://github.com/UWPCE-PythonCert/IntroToPython.git
-
-(you can copy and paste that link from the gitHub page)
-
-
-Step 5: Install Requirements
-----------------------------
-
-As this is an intro class, we are going to use almost entirely features
-of standand library. But there are a couple things you may want:
-
-**iPython**
-
-.. code-block:: bash
-
-  $pip install ipython
-
-If you are using SublimeText, you may want:
-
-.. code-block:: bash
-
-  $ pip install PdbSublimeTextSupport
 
 Introduction to iPython
 =======================
@@ -632,7 +578,7 @@ Introduction to iPython
 iPython Overview
 ------------------
 
-You have now installed `iPython`_.
+You have installed `iPython`_.
 
 iPython is an advanced Python interpreter that offers enhancements.
 
@@ -643,8 +589,8 @@ Specifically, you'll want to pay attention to the information about
 `Using iPython for Interactive Work`_.
 
 .. _iPython: http://ipython.org
-.. _official documentation: http://ipython.org/ipython-doc/stable/index.html
-.. _Using iPython for Interactive Work: http://ipython.org/ipython-doc/stable/interactive/index.html
+.. _official documentation: http://ipython.readthedocs.io/en/stable/
+.. _Using iPython for Interactive Work: http://ipython.readthedocs.io/en/stable/interactive/index.html
 
 .. ifslides::
 
@@ -654,25 +600,22 @@ Specifically, you'll want to pay attention to the information about
 The very basics of iPython
 --------------------------
 
-iPython can do a lot for you, but for starters, here are the key pieces you'll
-want to know:
+iPython can do a lot for you, but for starters, here are the key pieces
+you'll want to know:
 
 Start it up
 
 .. code-block:: bash
 
-    $ipython
+  $ ipython
+  Python 3.5.0 (v3.5.0:374f501f4567, Sep 12 2015, 11:00:19)
+  Type "copyright", "credits" or "license" for more information.
 
-    $ ipython
-    Python 2.7.6 (v2.7.6:3a1db0d2747e, Nov 10 2013, 00:42:54)
-    Type "copyright", "credits" or "license" for more information.
-
-    IPython 2.0.0 -- An enhanced Interactive Python.
-    ?         -> Introduction and overview of IPython's features.
-    %quickref -> Quick reference.
-    help      -> Python's own help system.
-    object?   -> Details about 'object', use 'object??' for extra details.
-
+  IPython 4.0.0 -- An enhanced Interactive Python.
+  ?         -> Introduction and overview of IPython's features.
+  %quickref -> Quick reference.
+  help      -> Python's own help system.
+  object?   -> Details about 'object', use 'object??' for extra details.
 
 .. ifslides::
 
@@ -718,12 +661,13 @@ This is the stuff I use every day:
 
 That's it -- you can get a lot done with those.
 
+
 How to run a python file
 --------------------------
 
 A file with python code in it is a 'module' or 'script'
 
-(more on the distiction later on...)
+(more on the distinction later on...)
 
 It should be named with the ``.py`` extension: ``some_name.py``
 
@@ -735,7 +679,19 @@ To run it, you have a couple options:
 
   $ python the_name_of_the_script.py
 
-2) run ``iPython``, and run it from within iPython with the ``run`` command
+2) On *nix (linux, OS-X, Windows bash), you can make the file "executable"::
+
+       chmod +x the_file.py
+
+   And make sur it has a "shebang" line at the top::
+
+       #!/usr/bin/env python
+
+   Then you can run it directly::
+
+       ./the_file.py
+
+3) run ``iPython``, and run it from within iPython with the ``run`` command
 
 .. code-block:: ipython
 
@@ -747,16 +703,61 @@ To run it, you have a couple options:
 
         [demo]
 
-
-
 Basic Python Syntax
 ===================
 
+(Follow along in the iPython interpreter...)
+
 .. rst-class:: center mlarge
 
-| Expressions, Statements,
-| Values, Types, and Symbols
 
+| Values, Types, and Names
+|
+| Expressions and Statements
+
+
+Values
+------
+
+All of programming is really about manipulating values.
+
+* Values are pieces of unnamed data: ``42``, ``'Hello, world'``
+
+* In Python, all values are objects
+
+  - Try ``dir(42)``  - lots going on behind the curtain!
+
+* Every value has a type
+
+  - Try ``type(42)`` - the type of a value determines what it can do
+
+.. ifslides::
+
+    .. rst-class:: centered
+
+        [demo]
+
+
+Literals for the Basic Value types:
+------------------------------------
+
+Numbers:
+  - floating point: ``3.4``
+  - integers: ``456``
+
+Text:
+  -  ``"a bit of text"``
+  -  ``'a bit of text'``
+  - (either single or double quotes work -- why?)
+
+Boolean values:
+  -  ``True``
+  -  ``False``
+
+The nothing object:
+  - ``None``
+
+(There are intricacies to all of these that we'll get into later)
 
 Code structure
 --------------
@@ -786,47 +787,26 @@ Statements:
 
     In [6]: # statements do not return a value, may contain an expression
 
-    In [7]: print u"this"
-    this
+    In [7]: line_count = 42
 
-    In [8]: line_count = 42
-
-    In [9]:
+    In [8]: return something
 
 
-.. nextslide:: The Print Statement
+.. nextslide:: The Print Function
 
 It's kind of obvious, but handy when playing with code:
 
 .. code-block:: ipython
 
-    In [1]: print u"something"
+    In [1]: print("something")
     something
 
-You can print multiple things: 
+You can print multiple things:
 
 .. code-block:: ipython
 
-    In [2]: print u"the value is", 5
+    In [2]: print("the value is", 5)
     the value is 5
-
-
-.. nextslide::
-
-Python automatically adds a newline, which you can suppress with a comma:
-
-
-.. code-block:: ipython
-
-    In [12]: for i in range(5):
-       ....:     print u"the value is",
-       ....:     print i
-       ....:
-    the value is 0
-    the value is 1
-    the value is 2
-    the value is 3
-    the value is 4
 
 
 .. nextslide::
@@ -839,7 +819,7 @@ Any python object can be printed (though it might not be pretty...)
        ...:     pass
        ...:
 
-    In [2]: print bar
+    In [2]: print(bar)
     <class '__main__.bar'>
 
 
@@ -856,7 +836,7 @@ Blocks of code are delimited by a colon and indentation:
 .. code-block:: python
 
     for i in range(100):
-        print i**2
+        print(i**2)
 
 .. code-block:: python
 
@@ -867,7 +847,7 @@ Blocks of code are delimited by a colon and indentation:
 
 .. nextslide::
 
-Python uses whitespace to delineate structure.
+Python uses indentation to delineate structure.
 
 This means that in Python, whitespace is **significant**.
 
@@ -887,12 +867,12 @@ These two blocks look the same:
 .. code-block:: python
 
     for i in range(100):
-        print i**2
+        print(i**2)
 
 .. code-block:: python
 
     for i in range(100):
-        print i**2
+        print(i**2)
 
 
 .. nextslide::
@@ -918,52 +898,16 @@ But they are not:
 
 NEVER INDENT WITH TABS
 
-make sure your editor is set to use spaces only --
+Make sure your editor is set to use spaces only --
 
-ideally even when you hit the <tab> key
+Even when you hit the <tab> key
 
-Values
-------
+[Python itself allows any number of spaces (and tabs), but you are just going to confuse yourself and others if you do anything else]
 
-.. rst-class:: build
+Expressions
+------------
 
-* Values are pieces of unnamed data: ``42, u'Hello, world',``
-* In Python, all values are objects
-
-  * Try ``dir(42)``  - lots going on behind the curtain!
-
-* Every value belongs to a type
-
-  * Try ``type(42)`` - the type of a value determines what it can do
-
-.. ifslides::
-
-    .. rst-class:: centered
-
-        [demo]
-
-Literals for the Basic Value types:
-------------------------------------
-
-Numbers:
-  - floating point: ``3.4``
-  - integers: ``456``
-
-Text:
-  -  ``u"a bit of text"``
-  -  ``u'a bit of text'``
-  - (either single or double quotes work -- why?)
-
-Boolean values:
-  -  ``True``
-  -  ``False``
-
-(There are intricacies to all of these that we'll get into later)
-
-Values in Action
-----------------
-
-An expression is made up of values and operators
+An *expression* is made up of values and operators.
 
 .. rst-class:: build
 
@@ -974,12 +918,11 @@ An expression is made up of values and operators
 * Integer vs. float arithmetic
 
   * (Python 3 smooths this out)
-  * Always use ``/`` when you want float results, ``//`` when you want floored (integer) results
+  * Always use ``/`` when you want division with float results, ``//`` when you want floored (integer) results (no remainder).
 
 * Type conversions
 
   * This is the source of many errors, especially in handling text
-  * Python 3 will not implicitly convert bytes to unicode
 
 * Type errors - checked at run time only
 
@@ -990,31 +933,31 @@ An expression is made up of values and operators
         [demo]
 
 
-Symbols
+Names
 -------
 
-Symbols are how we give names to values (objects).
+Names are how we give names to values (objects) -- hence "names"
 
 .. rst-class:: build
 
-* Symbols must begin with an underscore or letter
-* Symbols can contain any number of underscores, letters and numbers
+* Names must begin with an underscore or letter
+* Names can contain any number of underscores, letters and numbers
 
-  * this_is_a_symbol
+  * this_is_a_name
   * this_is_2
   * _AsIsThis
   * 1butThisIsNot
   * nor-is-this
 
-* Symbols don't have a type; values do
+* Names don't have a type; values do
 
-  * This is why python is 'Dynamic'
+  * This is why python is "Dynamic"
 
 
-Symbols and Type
+Names and Type
 ----------------
 
-Evaluating the type of a *symbol* will return the type of the *value* to which
+Evaluating the type of a *name* will return the type of the *value* to which
 it is bound.
 
 .. code-block:: ipython
@@ -1037,11 +980,12 @@ it is bound.
     In [26]: type(a)
     Out[26]: float
 
+*wait!* a has a different type?!? -- yes, because it's the type of teh value: "3.14", names don't actually have a type, they can refer to any type.
 
 Assignment
 ----------
 
-A *symbol* is **bound** to a *value* with the assignment operator: ``=``
+A *name* is **bound** to a *value* with the assignment operator: ``=``
 
 .. rst-class:: build
 
@@ -1049,17 +993,16 @@ A *symbol* is **bound** to a *value* with the assignment operator: ``=``
 * A value can have many names (or none!)
 * Assignment is a statement, it returns no value
 
-
 .. nextslide::
 
 Evaluating the name will return the value to which it is bound
 
 .. code-block:: ipython
 
-    In [26]: name = u"value"
+    In [26]: name = "value"
 
     In [27]: name
-    Out[27]: u'value'
+    Out[27]: 'value'
 
     In [28]: an_integer = 42
 
@@ -1071,6 +1014,24 @@ Evaluating the name will return the value to which it is bound
     In [31]: a_float
     Out[31]: 3.14
 
+Variables?
+----------
+
+.. rst-class:: build
+
+* In most languages, what I'm calling names are called "variables".
+
+* In fact, I'll probably call them variables in this class.
+
+* That's because they are used, for the most part, for the same purposes.
+
+* But often a "variable" is defined as something like:
+  "a place in memory that can store values"
+
+* That is **NOT** what a name in python is!
+
+* A name can be bound to a value -- but that has nothing to do with a
+  location in memory.
 
 In-Place Assignment
 -------------------
@@ -1102,7 +1063,8 @@ also: ``-=, *=, /=, **=, \%=``
 Multiple Assignment
 -------------------
 
-You can assign multiple variables from multiple expressions in one statement
+You can assign multiple names from multiple expressions in one
+statement
 
 .. code-block:: ipython
 
@@ -1125,7 +1087,7 @@ Python evaluates all the expressions on the right before doing any assignments
 Nifty Python Trick
 ------------------
 
-Using this feature, we can swap values between two symbols in one statement:
+Using this feature, we can swap values between two names in one statement:
 
 .. code-block:: ipython
 
@@ -1143,15 +1105,14 @@ Using this feature, we can swap values between two symbols in one statement:
     In [55]: j
     Out[55]: 4
 
-Multiple assignment and symbol swapping can be very useful in certain contexts
-
+Multiple assignment and name swapping can be very useful in certain contexts
 
 Deleting
 --------
 
-You can't actually delete anything in python...
+You can't actually directly delete values in python...
 
-``del``  only unbinds a name.
+``del`` only deletes a name (or "unbinds" the name...)
 
 .. code-block:: ipython
 
@@ -1200,7 +1161,7 @@ Identity
 Every value in Python is an object.
 
 Every object is unique and has a unique *identity*, which you can inspect with
-the ``id`` *builtin*:
+the ``id`` *builtin* function:
 
 .. code-block:: ipython
 
@@ -1219,7 +1180,7 @@ the ``id`` *builtin*:
 Testing Identity
 ----------------
 
-You can find out if the values bound to two different symbols are the **same
+You can find out if the values bound to two different names are the **same
 object** using the ``is`` operator:
 
 .. code-block:: ipython
@@ -1242,6 +1203,7 @@ object** using the ``is`` operator:
 
         [demo]
 
+**NOTE:** checking the id of an object, or using "is" to check if two objects are the same is rarely used except for debugging and understanding what's going on under the hood. They are not used regularly in production code.
 
 Equality
 --------
@@ -1257,10 +1219,12 @@ You can test for the equality of certain values with the ``==`` operator
     In [79]: val1 == val2
     Out[79]: True
 
-    In [80]: val3 = u'50'
+    In [80]: val3 = '50'
 
     In [81]: val1 == val3
     Out[84]: False
+
+A string is never equal to a number!
 
 .. ifslides::
 
@@ -1268,6 +1232,26 @@ You can test for the equality of certain values with the ``==`` operator
 
         [demo]
 
+For the numerical values, there is also::
+
+    >, <, >=, <=, !=
+
+Singletons
+----------
+
+Python has three "singletons" -- value fro which there is only one instance:
+
+  ``True``, ``False``, and ``None``
+
+To check if a name is bound to one of these, you use ``is``::
+
+    a is True
+
+    b is False
+
+    x is None
+
+Note that in contrast to english -- "is" is asking a question, not making an assertion -- ``a is True`` means "is a the True value?"
 
 Operator Precedence
 -------------------
@@ -1278,8 +1262,11 @@ Operator Precedence determines what evaluates first:
 
     4 + 3 * 5 != (4 + 3) * 5
 
-To force statements to be evaluated out of order, use parentheses.
+To force statements to be evaluated out of order, use parentheses -- expressions in parentheses are always evaluated first:
 
+   (4 + 3) * 5 != 4 + (3 * 5)
+
+Python follows the "usual" rules of algebra.
 
 Python Operator Precedence
 --------------------------
@@ -1287,7 +1274,7 @@ Python Operator Precedence
 Parentheses and Literals:
   ``(), [], {}``
 
-  ``"", b'', u''``
+  ``"", b'', ''``
 
 Function Calls:
   ``f(args)``
@@ -1339,39 +1326,44 @@ Anonymous Functions:
 String Literals
 ---------------
 
-You define a ``string`` value by writing a *literal*:
+A "string" is a chunk of text.
+
+You define a "string" value by writing a string *literal*:
 
 .. code-block:: ipython
 
-    In [1]: u'a string'
-    Out[1]: u'a string'
+    In [1]: 'a string'
+    Out[1]: 'a string'
 
-    In [2]: u"also a string"
-    Out[2]: u'also a string'
+    In [2]: "also a string"
+    Out[2]: 'also a string'
 
-    In [3]: u"a string with an apostrophe: isn't it cool?"
-    Out[3]: u"a string with an apostrophe: isn't it cool?"
+    In [3]: "a string with an apostrophe: isn't it cool?"
+    Out[3]: "a string with an apostrophe: isn't it cool?"
 
-    In [4]: u'a string with an embedded "quote"'
-    Out[4]: u'a string with an embedded "quote"'
+    In [4]: 'a string with an embedded "quote"'
+    Out[4]: 'a string with an embedded "quote"'
 
-(what's the '``u``' about?)
 
 .. nextslide::
 
 .. code-block:: ipython
 
-    In [5]: u"""a multi-line
+    In [5]: """a multi-line
        ...: string
        ...: all in one
        ...: """
-    Out[5]: u'a multi-line\nstring\nall in one\n'
+    Out[5]: 'a multi-line\nstring\nall in one\n'
 
-    In [6]: u"a string with an \n escaped character"
-    Out[6]: u'a string with an \n escaped character'
+    In [6]: "a string with an \n escaped character"
+    Out[6]: 'a string with an \n escaped character'
 
     In [7]: r'a "raw" string, the \n comes through as a \n'
     Out[7]: 'a "raw" string, the \\n comes through as a \\n'
+
+Python3 strings are fully support Unicode, which means that it can suport literally all the languages in the world (and then some -- Klingon, anyone?)
+
+Because Unicode is native, you can get very far without even thinking about it. Anything you can type in your editor will work fine.
 
 
 Keywords
@@ -1381,7 +1373,7 @@ Python defines a number of **keywords**
 
 These are language constructs.
 
-You *cannot* use these words as symbols.
+You *cannot* use these words as names.
 
 ::
 
@@ -1395,24 +1387,25 @@ You *cannot* use these words as symbols.
 
 .. nextslide::
 
-If you try to use any of the keywords as symbols, you will cause a
+
+If you try to use any of the keywords as names, you will cause a
 ``SyntaxError``:
 
 .. code-block:: ipython
 
-    In [13]: del = u"this will raise an error"
+    In [13]: del = "this will raise an error"
       File "<ipython-input-13-c816927c2fb8>", line 1
-        del = u"this will raise an error"
+        del = "this will raise an error"
             ^
     SyntaxError: invalid syntax
 
 .. code-block:: ipython
 
-    In [14]: def a_function(else=u'something'):
-       ....:     print else
+    In [14]: def a_function(else='something'):
+       ....:     print(else)
        ....:
       File "<ipython-input-14-1dbbea504a9e>", line 1
-        def a_function(else=u'something'):
+        def a_function(else='something'):
                           ^
     SyntaxError: invalid syntax
 
@@ -1420,7 +1413,7 @@ If you try to use any of the keywords as symbols, you will cause a
 __builtins__
 ------------
 
-Python also has a number of pre-bound symbols, called **builtins**
+Python also has a number of pre-bound names, called **builtins**
 
 Try this:
 
@@ -1434,31 +1427,30 @@ Try this:
      'BaseException',
      'BufferError',
      ...
-     'unicode',
      'vars',
      'xrange',
      'zip']
 
 .. nextslide::
 
-You are free to rebind these symbols:
+You are free to rebind these names:
 
 .. code-block:: ipython
 
-    In [15]: type(u'a new and exciting string')
-    Out[15]: unicode
+    In [15]: type('a new and exciting string')
+    Out[15]: str
 
-    In [16]: type = u'a slightly different string'
+    In [16]: type = 'a slightly different string'
 
-    In [17]: type(u'type is no longer what it was')
+    In [17]: type('type is no longer what it was')
     ---------------------------------------------------------------------------
     TypeError                                 Traceback (most recent call last)
     <ipython-input-17-907616e55e2a> in <module>()
-    ----> 1 type(u'type is no longer what it was')
+    ----> 1 type('type is no longer what it was')
 
-    TypeError: 'unicode' object is not callable
+    TypeError: 'str' object is not callable
 
-In general, this is a **BAD IDEA**.
+In general, this is a **BAD IDEA** -- hopefully your editor will warn you.
 
 
 Exceptions
@@ -1472,11 +1464,12 @@ There are several exceptions that you are likely to see a lot of:
 
 .. rst-class:: build
 
-* ``NameError``: indicates that you have tried to use a symbol that is not bound to
-  a value.
-* ``TypeError``: indicates that you have tried to use the wrong kind of object for
-  an operation.
+* ``NameError``: indicates that you have tried to use a name that is not bound to a value.
+
+* ``TypeError``: indicates that you have tried to use the wrong kind of object for an operation.
+
 * ``SyntaxError``: indicates that you have mis-typed something.
+
 * ``AttributeError``: indicates that you have tried to access an attribute or
   method that an object does not have (this often means you have a different
   type of object than you expect)
@@ -1491,36 +1484,34 @@ What is a function?
 
 A function is a self-contained chunk of code
 
-
 You use them when you need the same code to run multiple times,
 or in multiple parts of the program.
 
-(DRY) 
-
+(DRY) -- "Don't Repeat Yourself"
 
 Or just to keep the code clean
-
 
 Functions can take and return information
 
 .. nextslide::
 
-Minimal Function does nothing
+The minimal Function has at least one statement
 
 .. code-block:: python
 
-    def <name>():
-        <statement>
+    def a_name():
+        a_statement
 
 .. nextslide::
 
-Pass Statement (Note the indentation!)
+Pass Statement does nothing (Note the indentation!)
 
 .. code-block:: python
 
     def minimal():
         pass
 
+This, or course, is not useful -- you will generally have multiple statements in a function.
 
 Functions: ``def``
 ------------------
@@ -1530,8 +1521,8 @@ Functions: ``def``
 .. rst-class:: build
 
   * it is executed
-  * it creates a local variable
-
+  * it creates a local name
+  * it does *not* return a value
 
 .. nextslide::
 
@@ -1550,7 +1541,7 @@ function defs must be executed before the functions can be called:
 .. code-block:: ipython
 
     In [18]: def simple():
-       ....:     print u"I am a simple function"
+       ....:     print("I am a simple function")
        ....:
 
     In [19]: simple()
@@ -1566,22 +1557,25 @@ You **call** a function using the function call operator (parens):
 
     In [2]: type(simple)
     Out[2]: function
+
     In [3]: simple
     Out[3]: <function __main__.simple>
+
     In [4]: simple()
     I am a simple function
+
+Calling a function is how you run the code in that function.
 
 
 Functions: Call Stack
 ---------------------
 
-functions call functions -- this makes an execution stack -- that's all a trace
-back is
+functions can call other functions -- this makes an execution stack -- that's what a "trace back" is:
 
 .. code-block:: ipython
 
     In [5]: def exceptional():
-       ...:     print u"I am exceptional!"
+       ...:     print("I am exceptional!")
        ...:     print 1/0
        ...:
     In [6]: def passive():
@@ -1615,13 +1609,13 @@ Functions: Tracebacks
 
     <ipython-input-5-d8100c70edef> in exceptional()
           1 def exceptional():
-          2     print u"I am exceptional!"
-    ----> 3     print 1/0
+          2     print("I am exceptional!")
+    ----> 3     print(1/0)
           4
 
     ZeroDivisionError: integer division or modulo by zero
 
-
+The error occurred in the ``doer`` function -- but the traceback shows you where that was called from. In a more complex system, this can be VERY useful -- learn to read tracebacks!
 
 Functions: ``return``
 ---------------------
@@ -1637,7 +1631,7 @@ This is actually the simplest possible function:
 
 .. nextslide::
 
-if you don't explicilty put ``return``  there, Python will:
+if you don't explicitly put ``return``  there, Python will return None for you:
 
 .. code-block:: ipython
 
@@ -1646,15 +1640,15 @@ if you don't explicilty put ``return``  there, Python will:
        ...:
     In [10]: fun()
     In [11]: result = fun()
-    In [12]: print result
+    In [12]: print(result)
     None
 
-note that the interpreter eats ``None``
+note that the interpreter eats ``None`` -- you need to call ``print()`` to see it.
 
 
 .. nextslide::
 
-Only one return statement will ever be executed.
+Only one return statement in a function will ever be executed.
 
 Ever.
 
@@ -1665,12 +1659,12 @@ This is useful when debugging!
 .. code-block:: ipython
 
     In [14]: def no_error():
-       ....:     return u'done'
+       ....:     return 'done'
        ....:     # no more will happen
-       ....:     print 1/0
+       ....:     print(1/0)
        ....:
     In [15]: no_error()
-    Out[15]: u'done'
+    Out[15]: 'done'
 
 
 .. nextslide::
@@ -1680,7 +1674,7 @@ However, functions *can* return multiple results:
 .. code-block:: ipython
 
     In [16]: def fun():
-       ....:     return (1, 2, 3)
+       ....:     return 1, 2, 3
        ....:
     In [17]: fun()
     Out[17]: (1, 2, 3)
@@ -1692,7 +1686,7 @@ Remember multiple assignment?
 
 .. code-block:: ipython
 
-    In [18]: x,y,z = fun()
+    In [18]: x, y, z = fun()
     In [19]: x
     Out[19]: 1
     In [20]: y
@@ -1711,10 +1705,10 @@ In a ``def`` statement, the values written *inside* the parens are
 
     In [22]: def fun(x, y, z):
        ....:     q = x + y + z
-       ....:     print x, y, z, q
+       ....:     print(x, y, z, q)
        ....:
 
-x, y, z are *local* symbols -- so is q
+x, y, z are *local* names -- so is q
 
 
 Functions: arguments
@@ -1728,24 +1722,37 @@ When you call a function, you pass values to the function parameters as
     In [23]: fun(3, 4, 5)
     3 4 5 12
 
-The values you pass in are *bound* to the symbols inside the function and used.
+The values you pass in are *bound* to the names inside the function and used.
+
+The name used outside the object is separete from the name used inside teh function:
+
+.. code-block:: python
+
+    x = 5
+
+    def fun(a):
+        print(a)
+
+    fun(x)
+
+The "a" printed inside the function is the *same* object as the "x" outside the function.
 
 The ``if`` Statement
 ---------------------
 
-In order to do anything interesting at all (including this week's homework), you need to be able to make a decision.
+In order to do anything interesting at all, you need to be able to make a decision.
 
 .. nextslide::
 
-.. code-block:: python
+.. code-block:: ipython
 
     In [12]: def test(a):
        ....:     if a == 5:
-       ....:         print u"that's the value I'm looking for!"
+       ....:         print("that's the value I'm looking for!")
        ....:     elif a == 7:
-       ....:         print u"that's an OK number"
+       ....:         print("that's an OK number")
        ....:     else:
-       ....:         print u"that number won't do!"
+       ....:         print("that number won't do!")
 
     In [13]: test(5)
     that's the value I'm looking for!
@@ -1767,11 +1774,90 @@ That's it for our basic intro to Python
 Before next session, you'll use what you've learned here today to do some
 exercises in Python programming
 
+Schedule the lightning talks:
+-----------------------------
+
+.. rst-class:: build
+
+* We need to schedule your lightning talks.
+
+* **Let's use Python for that !**
+
+[demo]
+
+Python 2-3 Differences
+======================
+
+Much of the example code you'll find online is Python2, rather than Python3
+
+For the most part, they are the same -- so you can use those examples to learn from.
+
+There are a lot of subtle differences that you don't need to concern yourself with just yet.
+
+But a couple that you'll need to know right off the bat:
+
+print()
+-------
+
+In python2, ``print`` is a "statement", rather than a function. That means it didn't require parentheses around what you want printed::
+
+  print something, something_else
+
+This made it a bit less flexible and powerful.
+
+But -- if you try to use it that way in Python3, you'll get an error::
+
+  In [15]: print "this"
+    File "<ipython-input-15-70c8add5d16e>", line 1
+      print "this"
+                 ^
+  SyntaxError: Missing parentheses in call to 'print'
+
+So -- if you get this error, simply add the parentheses::
+
+  In [16]: print ("this")
+  this
+
+.. nextslide:: division
+
+In python 3, the division operator is "smart" when you divide integers::
+
+  In [17]: 1 / 2
+  Out[17]: 0.5
+
+However in python2, integer division, will give you an integer result::
+
+  In [1]: 1/2
+  Out[1]: 0
+
+In both versions, you can get "integer division" if you want it with a double slash::
+
+  In [1]: 1//2
+  Out[1]: 0
+
+And in python2, you can get the behavior of py3 with "true division"::
+
+  In [2]: from __future__ import division
+
+  In [3]: 1/2
+  Out[3]: 0.5
+
+For the most part, you just need to be a bit careful with the rare cases where py2 code counts on integer division.
+
+Other py2/py3 differences
+-------------------------
+
+Most of the other differences are essentially of implementation details, like getting iterators instead of sequences -- we'll talk about that more when it comes up in class.
+
+There are also a few syntax differences with more advances topics: Exceptions, super(), etc.
+
+We'll talk about all that when we cover those topics.
+
 
 Homework
 ========
 
-??? Tasks by Next Week
+Tasks and reading by next week
 
 
 Task 1
@@ -1782,51 +1868,27 @@ Task 1
 Make sure you have the basics of command line usage down:
 
 Work through the supplemental tutorials on setting up your
-`Command Line`_ for good development support.
+Command Line (http://uwpce-pythoncert.github.io/PythonResources/DevEnvironment/shell.html) for good development support.
 
 Make sure you've got your editor set up productively -- at the very very
 least, make sure it does Python indentation and syntax coloring well.
+
+.. nextslide::
 
 **Advanced Editor Setup:**
 
 If you are using SublimeText, here are some notes to make it super-nifty:
 
-Setting up `SublimeText`_ .
+http://uwpce-pythoncert.github.io/PythonResources/DevEnvironment/sublime_as_ide.html
 
 At the end, your editor should support tab completion and pep8 and pyflakes
-linting. Your command line should be able to show you what virtualenv is active
-and give you information about your git repository when you are inside one.
+linting.
 
 If you are not using SublimeText, look for plugins that accomplish the same
 goals for your own editor.  If none are available, please consider a change of
 editor.
 
-.. _SublimeText: supplements/sublime_as_ide.html
-.. _Command Line: supplements/shell.html
-
 Also make sure you've got iPython working, if you didn't get to that in class.
-
-Task 2
-------
-
-**Python Pushups**
-
-To get a bit of exercise solving some puzzles with Python, work on the Python
-exercises at `CodingBat`_.
-
-Begin by making an account on the site. Once you have done so, go to the
-'prefs' link at the top right and enter your name so we know who you are.
-
-In addition, add the following email address to the 'Share To' box.  This will
-allow me instructors to see the work you have done.
-
-::
-
-    PythonCHB@gmail.com
-
-There are 8 sets of puzzles. Do as many as you can, starting with the Warmups.
-
-.. _CodingBat: http://codingbat.com
 
 
 Task 3
@@ -1834,27 +1896,100 @@ Task 3
 
 **Explore Errors**
 
-* Create a new directory in your working dir for the class.
+* Create a new directory in your working dir for the class::
 
   $ mkdir session01
   $ cd session01
 
-
 * Add a new file to it called ``break_me.py``
-
 
 * In the ``break_me.py`` file write four simple Python functions:
 
   * Each function, when called, should cause an exception to happen
+
   * Each function should result in one of the four common exceptions from our
     lecture.
 
-    * for review: ``NameError``, ``TypeError``, ``SyntaxError``, ``AttributeError``
+  * for review: ``NameError``, ``TypeError``, ``SyntaxError``, ``AttributeError``
 
 (hint -- the interpreter will quit when it hits a Exception -- so you can comment out all but the one you are testing at the moment)
 
   * Use the Python standard library reference on `Built In Exceptions`_ as a
     reference
 
-.. _Built In Exceptions: https://docs.python.org/2/library/exceptions.html
+.. _Built In Exceptions: https://docs.python.org/3/library/exceptions.html
+
+Task 2
+------
+
+**Python Pushups**
+
+To get a bit of exercise solving some puzzles with Python, work on the Python
+exercises at "Coding Bat": http://codingbat.com/python
+
+There are 8 sets of puzzles. Do as many as you can, but try to at least
+get all the "Warmups" done.
+
+
+Reading, etc.
+-------------
+
+Every one of you has a different backgrond and learning style.
+
+So take a bit of time to figure out which resource works for you.
+
+http://uwpce-pythoncert.github.io/PythonResources/GeneralPython/learning.html
+
+provides some options. Do look it over.
+
+But here are few to get you started this week:
+
+*Think Python:* Chapters 1–7 (http://greenteapress.com/wp/think-python-2e/)
+
+*Dive Into Python:* Chapters 1–2 (http://www.diveintopython3.net/)
+
+*LPTHW:* ex. 1–10, 18-21 (http://learnpythonthehardway.org/book/)
+
+*NOTE:* LPTHW is python 2 -- you will need to add parentheses to all your print calls!
+
+Or follow this excellent introductory tutorial:
+
+https://www.youtube.com/watch?v=MirG-vJOg04
+
+You should be comfortable with working with variables, numbers, strings, and basic functions.
+
+git
+---
+
+We'll be covering the basics of git next week - enough to use for this class. Please read one of these so you'll have a head start:
+
+http://rogerdudler.github.io/git-guide/
+
+or
+
+https://try.github.io/levels/1/challenges/1
+
+
+Next Class
+===========
+
+Next week, we'll:
+
+ * get set up with git and gitHub
+ * Some more basic Python
+ * More on Functions
+ * Boolean Expressions
+ * Code Structure, Modules, and Namespaces
+
+
+Office Hours
+------------
+
+We will have office hours on either Saturday or Sunday from 10:00 to noon.
+
+Preferences?
+
+Locations?
+
+
 

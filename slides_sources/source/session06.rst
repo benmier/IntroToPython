@@ -1,11 +1,20 @@
+.. include:: include.rst
 
-.. Foundations 2: Python slides file, created by
-   hieroglyph-quickstart on Wed Apr  2 18:42:06 2014.
+***********************************************
+Session Six: Testing, Advanced Argument Passing
+***********************************************
 
-******************************************************************************************
-Session Six: Object oriented programming: Classes, instances, attributes, and subclassing
-******************************************************************************************
+======================
+Lightning Talks Today:
+======================
 
+.. rst-class:: medium
+
+    Adam Hollis
+
+    Nachiket Galande
+
+    Paul A Casey
 
 ================
 Review/Questions
@@ -14,690 +23,812 @@ Review/Questions
 Review of Previous Class
 ------------------------
 
-* Argument Passing: ``*args``, ``**kwargs``
+* Exceptions
 
-* comprehensions
-
-* ``lambda``
+* Comprehensions
 
 
+===============
 Homework review
----------------
+===============
 
 Homework Questions?
 
-If it seems harder than it should be -- it is!
+Notes from Homework:
+--------------------
 
-My Solution to the trigram:
+Comparing to "singletons":
 
- * (``dict.setdefault()``  trick...)
+Use:
 
-``global`` keyword?
+``if something is None``
 
-Unicode Notes
--------------
+Not:
 
-To put unicode in your source file, put:
+``if something == None``
+
+(also ``True`` and ``False``)
+
+rich comparisons: numpy
+
+(demo)
+
+.. nextslide::
+
+You don't actually need to use the result of a list comp:
 
 .. code-block:: python
 
-  #!/usr/bin/env python
-  # -*- coding: utf-8 -*-
-
-at the top of your file ... and be sure to save it as utf-8!
-(file->save with encoding in Sublime)
-
-You also might want to put::
-
-    from __future__ import unicode_literals
-
-
-Additional notes on using Unicode in Python see:
-
- :ref:`unicode_supplement`
-
-
-===========================
-Object Oriented Programming
-===========================
-
-Object Oriented Programming
----------------------------
-
-More about Python implementation than OO design/strengths/weaknesses
-
-One reason for this:
-
-Folks can't even agree on what OO "really" means
-
-See: The Quarks of Object-Oriented Development
-
-  - Deborah J. Armstrong
-
-http://agp.hx0.ru/oop/quarks.pdf
-
+    for i, st in zip( divisors, sets):
+        [ st.add(j) for j in range(21) if not j%i ]
 
 .. nextslide::
 
-Is Python a "True" Object-Oriented Language?
+Python functions are objects, so if you don't call them, you don't get an error, you just get the function object, usually not what you want::
 
-(Doesn't support full encapsulation, doesn't *require*
-classes,  etc...)
+        elif donor_name.lower == "exit":
 
-.. nextslide::
+this is comparing the string ``lower`` method to the string "exit" and they are never going to be equal!
 
-.. rst-class:: center large
+That should be::
 
-    I don't Care!
+    elif donor_name.lower() == "exit":
 
+This is actually a pretty common typo -- keep an eye out for it when you get strange errors, or something just doesn't seem to be getting triggered.
 
-Good software design is about code re-use, clean separation of concerns,
-refactorability, testability, etc...
+long strings
+------------
 
-OO can help with all that, but:
-  * It doesn't guarantee it
-  * It can get in the way
+if you need to do along string literal, sometimes a triple quoted string is perfect::
 
-.. nextslide::
+  """this is a long string.
+  I want it to hvae multiple lines.
+  so having the line endings automatic is great.
+  """
 
-Python is a Dynamic Language
+But you don't always want the line endings quite like that. And you may not want all that whitespace when fitting it into indented code.
 
-That clashes with "pure" OO
-
-Think in terms of what makes sense for your project
- -- not any one paradigm of software design.
-
-
-.. nextslide::
-
-So what is "object oriented programming"?
-
-    "Objects can be thought of as wrapping their data
-    within a set of functions designed to ensure that
-    the data are used appropriately, and to assist in
-    that use"
-
-
-http://en.wikipedia.org/wiki/Object-oriented_programming
-
-.. nextslide::
-
-Even simpler:
-
-
-"Objects are data and the functions that act on them in one place."
-
-This is the core of "encapsulation"
-
-In Python: just another namespace.
-
-.. nextslide::
-
-The OO buzzwords:
-
-  * data abstraction
-  * encapsulation
-  * modularity
-  * polymorphism
-  * inheritance
-
-Python does all of this, though it doesn't enforce it.
-
-.. nextslide::
-
-You can do OO in C
-
-(see the GTK+ project)
-
-
-"OO languages" give you some handy tools to make it easier (and safer):
-
-  * polymorphism (duck typing gives you this anyway)
-  * inheritance
-
-
-.. nextslide::
-
-OO is the dominant model for the past couple decades
-
-You will need to use it:
-
-- It's a good idea for a lot of problems
-
-- You'll need to work with OO packages
-
-(Even a fair bit of the standard library is Object Oriented)
-
-
-.. nextslide:: Some definitions
-
-class
-  A category of objects: particular data and behavior: A "circle" (same as a type in python)
-
-instance
-  A particular object of a class: a specific circle
-
-object
-  The general case of a instance -- really any value (in Python anyway)
-
-attribute
-  Something that belongs to an object (or class): generally thought of
-  as a variable, or single object, as opposed to a ...
-
-method
-  A function that belongs to a class
-
-.. nextslide::
-
-.. rst-class:: center
-
-    Note that in python, functions are first class objects, so a method *is* an attribute
-
-
-==============
-Python Classes
-==============
-
-Python Classes
---------------
-
-The ``class``  statement
-
-``class``  creates a new type object:
+It turns out that when you put a multiple strings together with no commas or anythign in between -- python will join them:
 
 .. code-block:: ipython
 
-    In [4]: class C(object):
-        pass
-       ...:
-    In [5]: type(C)
-    Out[5]: type
-
-A class is a type -- interesting!
-
-It is created when the statement is run -- much like ``def``
-
-You don't *have* to subclass from ``object``, but you *should* 
-
-(note on "new style" classes)
+  In [81]: "this is " "a string " "built up of parts"
+  Out[81]: 'this is a string built up of parts'
 
 .. nextslide::
 
-About the simplest class you can write
+If it's in parentheses, you can put the next chunk on the next line:
 
 .. code-block:: python
 
-    >>> class Point(object):
-    ...     x = 1
-    ...     y = 2
-    >>> Point
-    <class __main__.Point at 0x2bf928>
-    >>> Point.x
-    1
-    >>> p = Point()
-    >>> p
-    <__main__.Point instance at 0x2de918>
-    >>> p.x
-    1
+  print("{} is from {}, and he likes "
+        "{} cake, {} fruit, {} salad, "
+        "and {} pasta.".format(food_prefs["name"],
+                               food_prefs["city"],
+                               food_prefs["cake"],
+                               food_prefs["fruit"],
+                               food_prefs["salad"],
+                               food_prefs["pasta"]))
 
-.. nextslide::
+pretty print
+------------
 
-Basic Structure of a real class:
+If you need to print our nested (or large) data structure in a more readable fashion, the "pretty print" module is handy:
 
-.. code-block:: python
+.. code-block:: ipython
 
-    class Point(object):
-    # everything defined in here is in the class namespace
+  from pprint import pprint
 
-        def __init__(self, x, y):
-            self.x = x
-            self.y = y
+    In [28]: print(food_prefs)
+    {'pasta': 'lasagna', 'cake': 'chocolate', 'salad': 'greek', 'fruit': 'mango', 'name': 'Chris', 'city': 'Seattle'}
 
-    ## create an instance of the class
-    p = Point(3,4)
+    In [29]: pprint(food_prefs)
+    {'cake': 'chocolate',
+     'city': 'Seattle',
+     'fruit': 'mango',
+     'name': 'Chris',
+     'pasta': 'lasagna',
+     'salad': 'greek'}
 
-    ## access the attributes
-    print "p.x is:", p.x
-    print "p.y is:", p.y
+Exceptions
+----------
 
+Adding stuff to an Exception:
 
-see: ``Examples/Session06/simple_class``
+Example from slack
 
-.. nextslide::
 
-The Initializer
+Anything else?
+--------------
 
-The ``__init__``  special method is called when a new instance of a class is created.
+.. rst-class:: center medium
 
-You can use it to do any set-up you need
+   Anything else you want me to go over?
 
-.. code-block:: python
 
-    class Point(object):
-        def __init__(self, x, y):
-            self.x = x
-            self.y = y
-
-
-It gets the arguments passed when you call the class object:
-
-.. code-block:: python  
-
-    Point(x, y)
-
-.. nextslide::
-
-
-What is this ``self`` thing?
-
-The instance of the class is passed as the first parameter for every method.
-
-"``self``" is only a convention -- but you DO want to use it.
-
-.. code-block:: python
-
-    class Point(object):
-        def a_function(self, x, y):
-    ...
-
-
-Does this look familiar from C-style procedural programming?
-
-
-.. nextslide::
-
-Anything assigned to a ``self.``  attribute is kept in the instance
-name space -- ``self`` *is* the instance.
-
-That's where all the instance-specific data is.
-
-.. code-block:: python
-
-    class Point(object):
-        size = 4
-        color= "red"
-        def __init__(self, x, y):
-            self.x = x
-            self.y = y
-
-.. nextslide::
-
-Anything assigned in the class scope is a class attribute -- every
-instance of the class shares the same one.
-
-Note: the methods defined by ``def`` are class attributes as well.
-
-The class is one namespace, the instance is another.
-
-
-.. code-block:: python  
-
-    class Point(object):
-        size = 4
-        color= "red"
-    ...
-        def get_color():
-            return self.color
-    >>> p3.get_color()
-     'red'
-
-
-class attributes are accessed with ``self``  also.
-
-
-.. nextslide::
-
-Typical methods:
-
-.. code-block:: python  
-
-    class Circle(object):
-        color = "red"
-
-        def __init__(self, diameter):
-            self.diameter = diameter
-
-        def grow(self, factor=2):
-            self.diameter = self.diameter * factor
-
-
-Methods take some parameters, manipulate the attributes in ``self``.
-
-They may or may not return something useful.
-
-.. nextslide::
-
-Gotcha!
-
-.. code-block:: python  
-
-    ...
-        def grow(self, factor=2):
-            self.diameter = self.diameter * factor
-    ...
-    In [205]: C = Circle(5)
-    In [206]: C.grow(2,3)
-
-    TypeError: grow() takes at most 2 arguments (3 given)
-
-Huh???? I only gave 2
-
-``self`` is implicitly passed in for you by python.
-
-(demo of bound vs. unbound methods)
-
-LAB / homework
----------------
-
-Let's say you need to render some html..
-
-The goal is to build a set of classes that render an html page.
-
-``Examples/Session06/sample_html.html``
-
-We'll start with a single class, then add some sub-classes to specialize the behavior
-
-Details in:
-
-:ref:`homework_html_renderer`
-
-
-Let's see if we can do step 1. in class...
-
-
-=======================
-Subclassing/Inheritance
-=======================
-
-Inheritance
------------
-
-In object-oriented programming (OOP), inheritance is a way to reuse code of existing objects, or to establish a subtype from an existing object.
-
-
-Objects are defined by classes, classes can inherit attributes and behavior from pre-existing classes called base classes or super classes.
-
-The resulting classes are known as derived classes or subclasses.
-
-(http://en.wikipedia.org/wiki/Inheritance_%28object-oriented_programming%29)
-
-Subclassing
------------
-
-A subclass "inherits" all the attributes (methods, etc) of the parent class.
-
-You can then change ("override") some or all of the attributes to change the behavior.
-
-You can also add new attributes to extend the behavior.
-
-The simplest subclass in Python:
-
-.. code-block:: python
-
-    class A_subclass(The_superclass):
-        pass
-
-``A_subclass``  now has exactly the same behavior as ``The_superclass``
-
-NOTE: when we put ``object`` in there, it means we are deriving from object -- getting core functionality of all objects.
-
-Overriding attributes
----------------------
-
-Overriding is as simple as creating a new attribute with the same name:
-
-.. code-block:: python
-
-    class Circle(object):
-        color = "red"
-
-    ...
-
-    class NewCircle(Circle):
-        color = "blue"
-    >>> nc = NewCircle
-    >>> print nc.color
-    blue
-
-
-all the ``self``  instances will have the new attribute.
-
-Overriding methods
-------------------
-
-Same thing, but with methods (remember, a method *is* an attribute in python)
-
-.. code-block:: python
-
-    class Circle(object):
-    ...
-        def grow(self, factor=2):
-            """grows the circle's diameter by factor"""
-            self.diameter = self.diameter * factor
-    ...
-
-    class NewCircle(Circle):
-    ...
-        def grow(self, factor=2):
-            """grows the area by factor..."""
-            self.diameter = self.diameter * math.sqrt(2)
-
-
-all the instances will have the new method
-
-.. nextslide::
-
-Here's a program design suggestion:
-  whenever you override a method, the
-  interface of the new method should be the same as the old.  It should take
-  the same parameters, return the same type, and obey the same preconditions
-  and postconditions.
-
-  If you obey this rule, you will find that any function
-  designed to work with an instance of a superclass, like a Deck, will also work
-  with instances of subclasses like a Hand or PokerHand.  If you violate this
-  rule, your code will collapse like (sorry) a house of cards.
-
-[ThinkPython 18.10]
-
-
-( Demo of class vs. instance attributes )
-
-===================
-More on Subclassing
-===================
-
-Overriding \_\_init\_\_
------------------------
-
-``__init__`` common method to override}
-
-You often need to call the super class ``__init__``  as well
-
-.. code-block:: python
-
-    class Circle(object):
-        color = "red"
-        def __init__(self, diameter):
-            self.diameter = diameter
-    ...
-    class CircleR(Circle):
-        def __init__(self, radius):
-            diameter = radius*2
-            Circle.__init__(self, diameter)
-
-
-
-exception to: "don't change the method signature" rule.
-
-More subclassing
-----------------
-You can also call the superclass' other methods:
-
-.. code-block:: python  
-
-    class Circle(object):
-    ...
-        def get_area(self, diameter):
-            return math.pi * (diameter/2.0)**2
-
-
-    class CircleR2(Circle):
-    ...
-        def get_area(self):
-            return Circle.get_area(self, self.radius*2)
-
-There is nothing special about ``__init__``  except that it gets called
-automatically when you instantiate an instance.
-
-
-When to Subclass
+Lightning Talks
 ----------------
 
-"Is a" relationship: Subclass/inheritance
-
-"Has a" relationship: Composition
-
-.. nextslide::
-
-"Is a" vs "Has a"
-
-You may have a class that needs to accumulate an arbitrary number of objects.
-
-A list can do that -- so should you subclass list?
-
-Ask yourself:
-
--- **Is** your class a list (with some extra functionality)?
-
-or
-
--- Does you class **have** a list?
-
-You only want to subclass list if your class could be used anywhere a list can be used.
-
-
-Attribute resolution order
---------------------------
-
-When you access an attribute:
-
-``An_Instance.something``
-
-Python looks for it in this order:
-
-  * Is it an instance attribute ?
-  * Is it a class attribute ?
-  * Is it a superclass attribute ?
-  * Is it a super-superclass attribute ?
-  * ...
-
-
-It can get more complicated...
-
-http://www.python.org/getit/releases/2.3/mro/
-
-http://python-history.blogspot.com/2010/06/method-resolution-order.html
-
-
-What are Python classes, really?
---------------------------------
-
-Putting aside the OO theory...
-
-Python classes are:
-
-  * Namespaces
-
-    * One for the class object
-    * One for each instance
-
-  * Attribute resolution order
-  * Auto tacking-on of ``self`` when methods are called
-
-
-That's about it -- really!
-
-
-Type-Based dispatch
--------------------
-
-You'll see code that looks like this:
-
-.. code-block:: python
-
-      if isinstance(other, A_Class):
-          Do_something_with_other
-      else:
-          Do_something_else
-
-
-Usually better to use "duck typing" (polymorphism)
-
-But when it's called for:
-
-    * ``isinstance()``
-    * ``issubclass()``
-
-.. nextslide::
-
-GvR: "Five Minute Multi- methods in Python":
-
-http://www.artima.com/weblogs/viewpost.jsp?thread=101605
-
-http://www.python.org/getit/releases/2.3/mro/
-
-http://python-history.blogspot.com/2010/06/method-resolution-order.html
-
-
-Wrap Up
--------
-
-Thinking OO in Python:
-
-Think about what makes sense for your code:
-
-* Code re-use
-* Clean APIs
-* ...
-
-Don't be a slave to what OO is *supposed* to look like.
-
-Let OO work for you, not *create* work for you
-
-.. nextslide::
-
-OO in Python:
-
-The Art of Subclassing: *Raymond Hettinger*
-
-http://pyvideo.org/video/879/the-art-of-subclassing
-
-"classes are for code re-use -- not creating taxonomies"
-
-Stop Writing Classes: *Jack Diederich*
-
-http://pyvideo.org/video/880/stop-writing-classes
-
-"If your class has only two methods -- and one of them is ``__init__``
--- you don't need a class"
-
-
-Homework
---------
-
-Build an html rendering system:
-
-:ref:`homework_html_renderer`
+.. rst-class:: medium
 
 |
+| Adam Hollis
+|
+| Nachiket Galande
+|
 
-You will build an html generator, using:
+=======
+Testing
+=======
 
-* A Base Class with a couple methods
-* Subclasses overriding class attributes
-* Subclasses overriding a method
-* Subclasses overriding the ``__init__``
+.. rst-class:: build left
+.. container::
 
-These are the core OO approaches
+    You've already seen a very basic testing strategy.
+
+    You've written some tests using that strategy.
+
+    These tests were pretty basic, and a bit awkward in places (testing error
+    conditions in particular).
+
+    .. rst-class:: centered large
+
+    **It gets better**
+
+Test Runners
+------------
+
+So far our tests have been limited to code in an ``if __name__ == "__main__":``
+block.
+
+.. rst-class:: build
+
+* They are run only when the file is executed
+* They are always run when the file is executed
+* You can't do anything else when the file is executed without running tests.
+
+.. rst-class:: build
+.. container::
+
+    This is not optimal.
+
+    Python provides testing systems to help.
+
+
+Standard Library: ``unittest``
+-------------------------------
+
+The original testing system in Python.
+
+``import unittest``
+
+More or less a port of ``Junit`` from Java
+
+A bit verbose: you have to write classes & methods
+
+(And we haven't covered that yet!)
+
+
+Using ``unittest``
+-------------------
+
+You write subclasses of the ``unittest.TestCase`` class:
+
+.. code-block:: python
+
+    # in test.py
+    import unittest
+
+    class MyTests(unittest.TestCase):
+        def test_tautology(self):
+            self.assertEquals(1, 1)
+
+Then you run the tests by using the ``main`` function from the ``unittest``
+module:
+
+.. code-block:: python
+
+    # in test.py
+    if __name__ == '__main__':
+        unittest.main()
+
+.. nextslide:: Testing Your Code
+
+This way, you can write your code in one file and test it from another:
+
+.. code-block:: python
+
+    # in my_mod.py
+    def my_func(val1, val2):
+        return val1 * val2
+
+    # in test_my_mod.py
+    import unittest
+    from my_mod import my_func
+
+    class MyFuncTestCase(unittest.TestCase):
+        def test_my_func(self):
+            test_vals = (2, 3)
+            expected = reduce(lambda x, y: x * y, test_vals)
+            actual = my_func(*test_vals)
+            self.assertEquals(expected, actual)
+
+    if __name__ == '__main__':
+        unittest.main()
+
+.. nextslide:: Advantages of ``unittest``
+
+.. rst-class:: build
+.. container::
+
+    The ``unittest`` module is pretty full featured
+
+    It comes with the standard Python distribution, no installation required.
+
+    It provides a wide variety of assertions for testing all sorts of situations.
+
+    It allows for a setup and tear down workflow both before and after all tests and before and after each test.
+
+    It's well known and well understood.
+
+.. nextslide:: Disadvantages:
+
+.. rst-class:: build
+.. container::
+
+
+    It's Object Oriented, and quite "heavyweight".
+
+      - modeled after Java's ``junit`` and it shows...
+
+    It uses the framework design pattern, so knowing how to use the features
+    means learning what to override.
+
+    Needing to override means you have to be cautious.
+
+    Test discovery is both inflexible and brittle.
+
+    And there is no built-in parameterized testing.
+
+Other Options
+-------------
+
+There are several other options for running tests in Python.
+
+* `Nose`: https://nose.readthedocs.org/
+
+* `pytest`: http://pytest.org/latest/
+
+* ... (many frameworks supply their own test runners: e.g. django)
+
+Both are very capable and widely used. I have a personal preference for pytest
+
+-- so we'll use it for this class
+
+Installing ``pytest``
+---------------------
+
+The first step is to install the package:
+
+.. code-block:: bash
+
+    $ python3 -m pip install pytest
+
+Once this is complete, you should have a ``py.test`` command you can run
+at the command line:
+
+.. code-block:: bash
+
+    $ py.test
+
+If you have any tests in your repository, that will find and run them.
+
+.. rst-class:: build
+.. container::
+
+    **Do you?**
+
+Pre-existing Tests
+------------------
+
+Let's take a look at some examples.
+
+in ``IntroPython2016\Examples\Session06``
+
+.. code-block:: bash
+
+  $ py.test
+
+You can also run py.test on a particular test file:
+
+.. code-block:: bash
+
+  $ py.test test_random_unitest.py
+
+The results you should have seen when you ran ``py.test`` above come
+partly from these files.
+
+Let's take a few minutes to look these files over.
+
+[demo]
+
+What's Happening Here.
+----------------------
+
+When you run the ``py.test`` command, ``pytest`` starts in your current
+working directory and searches the filesystem for things that might be tests.
+
+It follows some simple rules:
+
+* Any python file that starts with ``test_`` or ``_test`` is imported.
+
+* Any functions in them that start with ``test_`` are run as tests.
+
+* Any classes that start with ``Test`` are treated similarly, with methods that begin with ``test_`` treated as tests.
+
+( don't worry about "classes" part just yet ;-) )
+
+pytest
+------
+
+This test running framework is simple, flexible and configurable.
+
+Read the documentation for more information:
+
+http://pytest.org/latest/getting-started.html#getstarted
+
+It will run ``unittest`` tests for you.
+
+But in addition to finding and running tests, it makes writting tests simple, and provides a bunch of nifty utilities to support more complex testing.
+
+
+Test Driven Development
+-----------------------
+in the Examples dir, try::
+
+  $ py.test test_cigar_party
+
+What we've just done here is the first step in what is called:
+
+.. rst-class:: centered
+
+  **Test Driven Development**.
+
+A bunch of tests exist, but the code to make them pass does not yet exist.
+
+The red you see in the terminal when we run our tests is a goad to us to write the code that fixes these tests.
+
+Let's do that next!
+
+Test Driven development demo
+-----------------------------
+
+Open up:
+
+``Examples/Session06/test_cigar_party.py``
+
+and:
+
+``Examples/Session06/cigar_party.py``
+
+and run::
+
+  $ py.teset test_cigar_party.py
+
+Now go in to ``cigar_party.py`` and let's fix the tests.
+
+Let's play with codingbat.py also...
+
+===
+LAB
+===
+
+.. rst-class:: left
+
+  Pick an example from codingbat:
+
+  ``http://codingbat.com``
+
+  Do a bit of test-driven development on it:
+
+   * run something on the web site.
+   * write a few tests using the examples from the site.
+   * then write the function, and fix it 'till it passes the tests.
+
+  Do at least two of these...
+
+Lightning Talk
+--------------
+
+.. rst-class:: medium
+
+    |
+    | Paul A Casey
+    |
+
+=========================
+Advanced Argument Passing
+=========================
+
+This is a very, very nifty Python feature -- it really lets you write dynamic programs.
+
+Keyword arguments
+-----------------
+
+When defining a function, you can specify only what you need -- in any order
+
+.. code-block:: ipython
+
+    In [151]: def fun(x=0, y=0, z=0):
+            print(x,y,z)
+       .....:
+    In [152]: fun(1,2,3)
+    1 2 3
+    In [153]: fun(1, z=3)
+    1 0 3
+    In [154]: fun(z=3, y=2)
+    0 2 3
+
+
+.. nextslide::
+
+
+A Common Idiom:
+
+.. code-block:: python
+
+    def fun(x, y=None):
+        if y is None:
+            do_something_different
+        go_on_here
+
+
+.. nextslide::
+
+Can set defaults to variables
+
+.. code-block:: ipython
+
+    In [156]: y = 4
+    In [157]: def fun(x=y):
+        print("x is:", x)
+       .....:
+    In [158]: fun()
+    x is: 4
+
+
+.. nextslide::
+
+Defaults are evaluated when the function is defined
+
+.. code-block:: ipython
+
+    In [156]: y = 4
+    In [157]: def fun(x=y):
+        print("x is:", x)
+       .....:
+    In [158]: fun()
+    x is: 4
+    In [159]: y = 6
+    In [160]: fun()
+    x is: 4
+
+This is a **very** important point -- I will repeat it!
+
+
+Function arguments in variables
+-------------------------------
+
+When a function is called, its arguments are really just:
+
+* a tuple (positional arguments)
+* a dict (keyword arguments)
+
+.. code-block:: python
+
+    def f(x, y, w=0, h=0):
+        print("position: {}, {} -- shape: {}, {}".format(x, y, w, h))
+
+    position = (3,4)
+    size = {'h': 10, 'w': 20}
+
+    >>> f(*position, **size)
+    position: 3, 4 -- shape: 20, 10
+
+
+Function parameters in variables
+--------------------------------
+
+You can also pull the parameters out in the function as a tuple and a dict:
+
+.. code-block:: ipython
+
+    def f(*args, **kwargs):
+        print("the positional arguments are:", args)
+        print("the keyword arguments are:", kwargs)
+
+    In [389]: f(2, 3, this=5, that=7)
+    the positional arguments are: (2, 3)
+    the keyword arguments are: {'this': 5, 'that': 7}
+
+This can be very powerful...
+
+Passing a dict to str.format()
+-------------------------------
+
+Now that you know that keyword args are really a dict,
+you know how this nifty trick works:
+
+The string ``format()`` method takes keyword arguments:
+
+.. code-block:: ipython
+
+    In [24]: "My name is {first} {last}".format(last="Barker", first="Chris")
+    Out[24]: 'My name is Chris Barker'
+
+Build a dict of the keys and values:
+
+.. code-block:: ipython
+
+    In [25]: d = {"last":"Barker", "first":"Chris"}
+
+And pass to ``format()``with ``**``
+
+.. code-block:: ipython
+
+    In [26]: "My name is {first} {last}".format(**d)
+    Out[26]: 'My name is Chris Barker'
+
+Kinda handy for the dict lab, eh?
+
+This:
+
+.. code-block:: ipython
+
+  print("{} is from {}, and he likes "
+        "{} cake, {} fruit, {} salad, "
+        "and {} pasta.".format(food_prefs["name"],
+                               food_prefs["city"],
+                               food_prefs["cake"],
+                               food_prefs["fruit"],
+                               food_prefs["salad"],
+                               food_prefs["pasta"]))
+
+Becomes:
+
+.. code-block:: ipython
+
+  print("{name} is from {city}, and he likes "
+        "{cake} cake, {fruit} fruit, {salad} salad, "
+        "and {pasta} pasta.".format(**food_prefs))
+
+LAB
+----
+
+Time to play with all this to get a feel for it.
+
+:ref:`exercise_args_kwargs_lab`
+
+This is not all that clearly specified -- the goal is for you to
+experiment with various ways to define and call functions, so you
+can understand what's possible, and what happens with each call.
+
+
+=====================================
+A bit more on mutability (and copies)
+=====================================
+
+mutable objects
+----------------
+
+We've talked about this: mutable objects can have their contents changed in place.
+
+Immutable objects can not.
+
+This has implications when you have a container with mutable objects in it:
+
+.. code-block:: ipython
+
+    In [28]: list1 = [ [1,2,3], ['a','b'] ]
+
+one way to make a copy of a list:
+
+.. code-block:: ipython
+
+    In [29]: list2 = list1[:]
+
+    In [30]: list2 is list1
+    Out[30]: False
+
+they are different lists.
+
+.. nextslide::
+
+What if we set an element to a new value?
+
+.. code-block:: ipython
+
+    In [31]: list1[0] = [5,6,7]
+
+    In [32]: list1
+    Out[32]: [[5, 6, 7], ['a', 'b']]
+
+    In [33]: list2
+    Out[33]: [[1, 2, 3], ['a', 'b']]
+
+So they are independent.
+
+.. nextslide::
+
+But what if we mutate an element?
+
+.. code-block:: ipython
+
+    In [34]: list1[1].append('c')
+
+    In [35]: list1
+    Out[35]: [[5, 6, 7], ['a', 'b', 'c']]
+
+    In [36]: list2
+    Out[36]: [[1, 2, 3], ['a', 'b', 'c']]
+
+uuh oh! mutating an element in one list mutated the one in the other list.
+
+.. nextslide::
+
+Why is that?
+
+.. code-block:: ipython
+
+    In [38]: list1[1] is list2[1]
+    Out[38]: True
+
+The elements are the same object!
+
+This is known as a "shallow" copy -- Python doesn't want to copy more than it needs to, so in this case, it makes a new list, but does not make copies of the contents.
+
+Same for dicts (and any container type -- even tuples!)
+
+If the elements are immutable, it doesn't really make a differnce -- but be very careful with mutable elements.
+
+
+The copy module
+----------------
+
+most objects have a way to make copies (``dict.copy()`` for instance).
+
+but if not, you can use the ``copy`` module to make a copy:
+
+.. code-block:: ipython
+
+    In [39]: import copy
+
+    In [40]: list3 = copy.copy(list2)
+
+    In [41]: list3
+    Out[41]: [[1, 2, 3], ['a', 'b', 'c']]
+
+This is also a shallow copy.
+
+.. nextslide::
+
+But there is another option:
+
+.. code-block:: ipython
+
+    In [3]: list1
+    Out[3]: [[1, 2, 3], ['a', 'b', 'c']]
+
+    In [4]: list2 = copy.deepcopy(list1)
+
+    In [5]: list1[0].append(4)
+
+    In [6]: list1
+    Out[6]: [[1, 2, 3, 4], ['a', 'b', 'c']]
+
+    In [7]: list2
+    Out[7]: [[1, 2, 3], ['a', 'b', 'c']]
+
+``deepcopy`` recurses through the object, making copies of everything as it goes.
+
+.. nextslide::
+
+
+I happened on this thread on stack overflow:
+
+http://stackoverflow.com/questions/3975376/understanding-dict-copy-shallow-or-deep
+
+The OP is pretty confused -- can you sort it out?
+
+Make sure you understand the difference between a reference, a shallow copy, and a deep copy.
+
+Mutables as default arguments:
+------------------------------
+
+Another "gotcha" is using mutables as default arguments:
+
+.. code-block:: ipython
+
+    In [11]: def fun(x, a=[]):
+       ....:     a.append(x)
+       ....:     print(a)
+       ....:
+
+This makes sense: maybe you'd pass in a specific list, but if not, the default is an empty list.
+
+But:
+
+.. code-block:: ipython
+
+    In [12]: fun(3)
+    [3]
+
+    In [13]: fun(4)
+    [3, 4]
+
+Huh?!
+
+.. nextslide::
+
+Remember that that default argument is defined when the function is created: there will be only one list, and every time the function is called, that same list is used.
+
+
+The solution:
+
+The standard practice for such a mutable default argument:
+
+.. code-block:: ipython
+
+    In [15]: def fun(x, a=None):
+       ....:     if a is None:
+       ....:         a = []
+       ....:     a.append(x)
+       ....:     print(a)
+    In [16]: fun(3)
+    [3]
+    In [17]: fun(4)
+    [4]
+
+You get a new list every time the function is called
+
+
+========
+Homework
+========
+
+.. rst-class:: left
+
+  Finish up the Labs
+
+  Write a complete set of unit tests for your mailroom program.
+
+   * You will likely find that it is really hard to test without refactoring.
+
+   * This is Good!
+
+   * If code is hard to test -- it probably should be refactored.
+
+
+
+Material to review for next week
+--------------------------------
+
+Next week, we'll get started on Object Oriented Methods. It's a good idea to read up on it first -- so we can dive right in:
+
+ * Dive into Python3: 7.2 -- 7.3
+   http://www.diveintopython3.net/iterators.html#defining-classes
+
+ * Think Python: 15 -- 18
+   http://www.greenteapress.com/thinkpython/html/thinkpython016.html
+
+ * LPTHW: 40 -- 44
+   http://learnpythonthehardway.org/book/ex40.html
+
+[note that in py3 you don't need to inherit from object]
+
+Talk by Raymond Hettinger:
+
+Video of talk: https://youtu.be/HTLu2DFOdTg
+
+Slides: https://speakerdeck.com/pyconslides/pythons-class-development-toolkit-by-raymond-hettinger
 

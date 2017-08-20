@@ -1,262 +1,788 @@
+.. include:: include.rst
 
-.. Foundations 2: Python slides file, created by
-   hieroglyph-quickstart on Wed Apr  2 18:42:06 2014.
+***************************
+Object Oriented Programming
+***************************
 
-*******************************
-Session Seven: Testing, More OO
-*******************************
+Lightning Talks today
+---------------------
 
-.. rst-class:: large centered
+.. rst-class:: medium
 
-| Testing,
-| Multiple Inheritance,
-| Properties,
-| Class and Static Methods,
-| Special (Magic) Methods
+    |
+    | Charles E Robison
+    |
+    | Paul Vosper
+    |
 
-
+================
 Review/Questions
 ================
 
 Review of Previous Class
 ------------------------
 
-* Unicode
+.. rst-class:: medium
 
-* Object Oriented Programming
+  Advanced Argument passing
 
+  Testing
 
-Homework review
----------------
+Any questions?
 
-Homework Questions?
-
-How is progress going on the HTML Renderer?
+Should I go over my solution(s)?
 
 
-Testing
-=======
+Notes from homework:
+--------------------
 
-.. rst-class:: build left
+**chaining or...**
+
+Consider this:
+
+``elif selection == '3' or 'exit':``
+
+Careful here: you want to check if selection is '3' or 'exit', but that is no quite what this means:
+
+You want:
+
+``(selection == '3') or (selection == 'exit')``
+
+== has higher precedence than or, so you don't need the parentheses.
+
+``selection == '3' or selection == 'exit'``
+
+That feels like more typing, but that's what you have to do.
+
+.. nextslide::
+
+So what does the first version mean?
+
+It would return true for '3', but would never fail. Due to operator precedence, it is:
+
+``(selection == '3') or 'exit'``
+
+so first it's checking if selection == '3', which will return True or False.
+
+Then it does the or: ``True or 'exit'`` or ``False or 'exit'``
+
+``or`` returns the first "truthy" value it finds, to it will return either True or 'exit', regardless of the value of selection. 'exit' is truthy, so this if clause will always run.
+
+(let's try this out in iPython)
+
+
+===========================
+Object Oriented Programming
+===========================
+
+.. rst-class:: medium centered
+
 .. container::
 
-    You've already seen some a very basic testing strategy.
+  Classes
 
-    You've written some tests using that strategy.
+  Instances
 
-    These tests were pretty basic, and a bit awkward in places (testing error
-    conditions in particular).
+  Class and instance attributes
 
-    .. rst-class:: centered
+  Subclassing
 
-    **It gets better**
+  Overriding methods
 
-Test Runners
-------------
 
-So far our tests have been limited to code in an ``if __name__ == "__main__":``
-block.
 
-.. rst-class:: build
 
-* They are run only when the file is executed
-* They are always run when the file is executed
-* You can't do anything else when the file is executed without running tests.
+===========================
+Object Oriented Programming
+===========================
 
-.. rst-class:: build
-.. container::
+A Core approach to organizing code.
 
-    This is not optimal.
+I'm going to go through this fast.
 
-    Python provides testing systems to help.
+So we can get to the actual coding.
 
 
-.. nextslide:: Standard Library: ``unittest``
+Object Oriented Programming
+---------------------------
 
-The original testing system in Python.
+More about Python implementation than OO design/strengths/weaknesses
 
-You write subclasses of the ``unittest.TestCase`` class:
+One reason for this:
 
-.. code-block:: python
+Folks can't even agree on what OO "really" means
 
-    # in test.py
-    import unittest
+See: The Quarks of Object-Oriented Development
 
-    class MyTests(unittest.TestCase):
-        def test_tautology(self):
-            self.assertEquals(1, 1)
+  - Deborah J. Armstrong
 
-Then you run the tests by using the ``main`` function from the ``unittest``
-module:
-
-.. code-block:: python
-
-    # in test.py
-    if __name__ == '__main__':
-        unittest.main()
-
-.. nextslide:: Testing Your Code
-
-This way, you can write your code in one file and test it from another:
-
-.. code-block:: python
-
-    # in my_mod.py
-    def my_func(val1, val2):
-        return val1 * val2
-
-    # in test_my_mod.py
-    import unittest
-    from my_mod import my_func
-
-    class MyFuncTestCase(unittest.TestCase):
-        def test_my_func(self):
-            test_vals = (2, 3)
-            expected = reduce(lambda x, y: x * y, test_vals)
-            actual = my_func(*test_vals)
-            self.assertEquals(expected, actual)
-
-    if __name__ == '__main__':
-        unittest.main()
-
-.. nextslide:: Advantages of ``unittest``
-
-.. rst-class:: build
-.. container::
-
-    The ``unittest`` module is great.
-
-    It comes with the standard Python distribution, no installation required.
-
-    It provides a wide variety of assertions for testing all sorts of situations.
-
-    It allows for a setup and tear down workflow both before and after all tests
-    and before and after each test.
-
-    It's well known and well understood.
-
-.. nextslide:: Disadvantages:
-
-.. rst-class:: build
-.. container::
-
-
-    It's Object Oriented, and quite heavy.
-
-    It uses the framework design pattern, so knowing how to use the features
-    means learning what to override.
-
-    Needing to override means you have to be cautious.
-
-    Test discovery is both inflexible and brittle.
-
-.. nextslide:: Other Options
-
-There are several other options for running tests in Python.
-
-
-* `Nose`_
-* `pytest`_
-* ... (many frameworks supply their own test runners)
-
-We are going to play today with pytest
-
-.. _Nose: https://nose.readthedocs.org/
-.. _pytest: http://pytest.org/latest/
-
-
-.. nextslide:: Installing ``pytest``
-
-The first step is to install the package:
-
-.. code-block:: bash
-
-    $ workon cff2py
-    (cff2py)$ pip install pytest
-
-Once this is complete, you should have a ``py.test`` command you can run at the
-command line:
-
-.. code-block:: bash
-
-    (cff2py)$ py.test
-
-If you have any tests in your repository, that will find and run them.
-
-.. rst-class:: build
-.. container::
-
-    **Do you?**
-
-.. nextslide:: Pre-existing Tests
-
-I've added two files to the ``code/session07`` folder, along with a python
-source code file called ``circle.py``.
-
-The results you should have seen when you ran ``py.test`` above come partly
-from these files.
-
-Let's take a few minutes to look these files over.
-
-[demo]
-
-.. nextslide:: What's Happening Here.
-
-When you run the ``py.test`` command, ``pytest`` starts in your current working
-directory and searches the filesystem for things that might be tests.
-
-It follows some simple rules:
-
-.. rst-class:: build
-
-* Any python file that starts with ``test_`` or ``_test`` is imported.
-* Any functions in them that start with ``test_`` are run as tests.
-* Any classes that start with ``Test`` are treated similarly, with methods that
-  begin with ``test_`` treated as tests.
+http://agp.hx0.ru/oop/quarks.pdf
 
 
 .. nextslide::
 
-This test running framework is simple, flexible and configurable.
+Is Python a "True" Object-Oriented Language?
 
-`Read the documentation`_ for more information.
+(Doesn't support full encapsulation, doesn't *require*
+classes,  etc...)
 
-.. _Read the documentation: http://pytest.org/latest/getting-started.html#getstarted
+.. nextslide::
 
-.. nextslide:: Test Driven Development
+.. rst-class:: center large
 
-What we've just done here is the first step in what is called **Test Driven
-Development**.
-
-A bunch of tests exist, but the code to make them pass does not yet exist.
-
-The red we see in the terminal when we run our tests is a goad to us to write
-the code that fixes these tests.
-
-Let's do that next!
+    I don't Care!
 
 
-More on Subclassing
-===================
+Good software design is about code re-use, clean separation of concerns,
+refactorability, testability, etc...
 
-Watch This Video:
+OO can help with all that, but:
+  * It doesn't guarantee it
+  * It can get in the way
 
-http://pyvideo.org/video/879/the-art-of-subclassing
+.. nextslide::
+
+Python is a Dynamic Language
+
+That clashes with "pure" OO
+
+Think in terms of what makes sense for your project
+
+-- not any one paradigm of software design.
+
+
+.. nextslide::
+
+So what is "object oriented programming"?
+
+|
+    "Objects can be thought of as wrapping their data
+    within a set of functions designed to ensure that
+    the data are used appropriately, and to assist in
+    that use"
+
+|
+
+http://en.wikipedia.org/wiki/Object-oriented_programming
+
+.. nextslide::
+
+Even simpler:
+
+
+"Objects are data and the functions that act on them in one place."
+
+This is the core of "encapsulation"
+
+In Python: just another namespace.
+
+.. nextslide::
+
+The OO buzzwords:
+
+  * data abstraction
+  * encapsulation
+  * modularity
+  * polymorphism
+  * inheritance
+
+Python does all of this, though it doesn't enforce it.
+
+.. nextslide::
+
+You can do OO in C
+
+(see the GTK+ project)
+
+
+"OO languages" give you some handy tools to make it easier (and safer):
+
+  * polymorphism (duck typing gives you this anyway)
+  * inheritance
+
+
+.. nextslide::
+
+OO is the dominant model for the past couple decades
+
+You will need to use it:
+
+- It's a good idea for a lot of problems
+
+- You'll need to work with OO packages
+
+(Even a fair bit of the standard library is Object Oriented)
+
+
+.. nextslide:: Some definitions
+
+class
+  A category of objects: particular data and behavior: A "circle" (same as a type in python)
+
+instance
+  A particular object of a class: a specific circle
+
+object
+  The general case of a instance -- really any value (in Python anyway)
+
+attribute
+  Something that belongs to an object (or class): generally thought of
+  as a variable, or single object, as opposed to a ...
+
+method
+  A function that belongs to a class
+
+.. nextslide::
+
+.. rst-class:: center
+
+    Note that in python, functions are first class objects, so a method *is* an attribute
+
+
+==============
+Python Classes
+==============
 
 .. rst-class:: left
 
-Seriously, well worth the time.
+    The ``class``  statement
+
+    ``class``  creates a new type object:
+
+    .. code-block:: ipython
+
+        In [4]: class C:
+            pass
+           ...:
+        In [5]: type(C)
+        Out[5]: type
+
+    A class is a type -- interesting!
+
+    It is created when the statement is run -- much like ``def``
+
+Python Classes
+--------------
+
+About the simplest class you can write
+
+.. code-block:: python
+
+    >>> class Point:
+    ...     x = 1
+    ...     y = 2
+    >>> Point
+    <class __main__.Point at 0x2bf928>
+    >>> Point.x
+    1
+    >>> p = Point()
+    >>> p
+    <__main__.Point instance at 0x2de918>
+    >>> p.x
+    1
+
+.. nextslide::
+
+Basic Structure of a real class:
+
+.. code-block:: python
+
+    class Point:
+    # everything defined in here is in the class namespace
+
+        def __init__(self, x, y):
+            self.x = x
+            self.y = y
+
+    ## create an instance of the class
+    p = Point(3,4)
+
+    ## access the attributes
+    print("p.x is:", p.x)
+    print("p.y is:", p.y)
+
+
+see: ``Examples/Session07/simple_classes.py``
+
+.. nextslide::
+
+The Initializer
+
+The ``__init__``  special method is called when a new instance of a class is created.
+
+You can use it to do any set-up you need
+
+.. code-block:: python
+
+    class Point(object):
+        def __init__(self, x, y):
+            self.x = x
+            self.y = y
+
+
+It gets the arguments passed when you call the class object:
+
+.. code-block:: python
+
+    Point(x, y)
+
+.. nextslide::
+
+
+What is this ``self`` thing?
+
+The instance of the class is passed as the first parameter for every method.
+
+"``self``" is only a convention -- but you DO want to use it.
+
+.. code-block:: python
+
+    class Point:
+        def a_function(self, x, y):
+    ...
+
+
+Does this look familiar from C-style procedural programming?
+
+
+.. nextslide::
+
+Anything assigned to a ``self``  attribute is kept in the instance
+name space
+
+-- ``self`` *is* the instance.
+
+That's where all the instance-specific data is.
+
+.. code-block:: python
+
+    class Point(object):
+        size = 4
+        color= "red"
+        def __init__(self, x, y):
+            self.x = x
+            self.y = y
+
+.. nextslide::
+
+Anything assigned in the class scope is a class attribute -- every
+instance of the class shares the same one.
+
+Note: the methods defined by ``def`` are class attributes as well.
+
+The class is one namespace, the instance is another.
+
+.. code-block:: python
+
+    class Point:
+        size = 4
+        color= "red"
+    ...
+        def get_color():
+            return self.color
+    >>> p3.get_color()
+     'red'
+
+
+class attributes are accessed with ``self``  also.
+
+
+.. nextslide::
+
+Typical methods:
+
+.. code-block:: python
+
+    class Circle:
+        color = "red"
+
+        def __init__(self, diameter):
+            self.diameter = diameter
+
+        def grow(self, factor=2):
+            self.diameter = self.diameter * factor
+
+
+Methods take some parameters, manipulate the attributes in ``self``.
+
+They may or may not return something useful.
+
+.. nextslide::
+
+Gotcha!
+
+.. code-block:: python
+
+    ...
+        def grow(self, factor=2):
+            self.diameter = self.diameter * factor
+    ...
+    In [205]: C = Circle(5)
+    In [206]: C.grow(2,3)
+
+    TypeError: grow() takes at most 2 arguments (3 given)
+
+Huh???? I only gave 2
+
+``self`` is implicitly passed in for you by python.
+
+(demo of bound vs. unbound methods)
+
+LAB
+----
+.. rst-class:: medium
+
+  We now know enough to do something useful.
+
+Let's say you need to render some html...
+
+The goal is to build a set of classes that render an html
+page.
+
+We'll start with a single class, then add some sub-classes
+to specialize the behavior
+
+Details in:
+
+:ref:`exercise_html_renderer`
+
+Let's get a start with step 1. in class.
+
+I'll give you a few minutes to think about it -- then we'll get started as a group.
+
+
+Lightning Talks
+----------------
+
+.. rst-class:: medium
+
+    |
+    | Charles E Robisons
+    |
+    | Paul Vosper
+    |
+
+=======================
+Subclassing/Inheritance
+=======================
+
+Inheritance
+-----------
+
+In object-oriented programming (OOP), inheritance is a way to reuse code
+of existing objects, or to establish a subtype from an existing object.
+
+Objects are defined by classes, classes can inherit attributes and behavior
+from pre-existing classes called base classes or super classes.
+
+The resulting classes are known as derived classes or subclasses.
+
+(http://en.wikipedia.org/wiki/Inheritance_%28object-oriented_programming%29)
+
+Subclassing
+-----------
+
+A subclass "inherits" all the attributes (methods, etc) of the parent class.
+
+You can then change ("override") some or all of the attributes to change the behavior.
+
+You can also add new attributes to extend the behavior.
+
+The simplest subclass in Python:
+
+.. code-block:: python
+
+    class A_subclass(The_superclass):
+        pass
+
+``A_subclass``  now has exactly the same behavior as ``The_superclass``
+
+Overriding attributes
+---------------------
+
+Overriding is as simple as creating a new attribute with the same name:
+
+.. code-block:: python
+
+    class Circle:
+        color = "red"
+
+    ...
+
+    class NewCircle(Circle):
+        color = "blue"
+    >>> nc = NewCircle
+    >>> print(nc.color)
+    blue
+
+
+all the ``self``  instances will have the new attribute.
+
+Overriding methods
+------------------
+
+Same thing, but with methods (remember, a method *is* an attribute in python)
+
+.. code-block:: python
+
+    class Circle:
+    ...
+        def grow(self, factor=2):
+            """grows the circle's diameter by factor"""
+            self.diameter = self.diameter * factor
+    ...
+
+    class NewCircle(Circle):
+    ...
+        def grow(self, factor=2):
+            """grows the area by factor..."""
+            self.diameter = self.diameter * math.sqrt(2)
+
+
+all the instances will have the new method
+
+.. nextslide::
+
+Here's a program design suggestion:
+
+"""
+
+Whenever you override a method, the interface of the new method should be the same as the old.  It should take the same parameters, return the same type, and obey the same preconditions and postconditions.
+
+If you obey this rule, you will find that any function designed to work with an instance of a superclass, like a Deck, will also work with instances of subclasses like a Hand or PokerHand.  If you violate this rule, your code will collapse like (sorry) a house of cards.
+
+"""
+
+|
+| [ThinkPython 18.10]
+|
+| ( Demo of class vs. instance attributes )
+
+
+===================
+More on Subclassing
+===================
+
+Overriding \_\_init\_\_
+-----------------------
+
+``__init__`` common method to override
+
+You often need to call the super class ``__init__``  as well
+
+.. code-block:: python
+
+    class Circle:
+        color = "red"
+        def __init__(self, diameter):
+            self.diameter = diameter
+    ...
+    class CircleR(Circle):
+        def __init__(self, radius):
+            diameter = radius*2
+            Circle.__init__(self, diameter)
+
+
+exception to: "don't change the method signature" rule.
+
+More subclassing
+----------------
+You can also call the superclass' other methods:
+
+.. code-block:: python
+
+    class Circle:
+    ...
+        def get_area(self, diameter):
+            return math.pi * (diameter/2.0)**2
+
+
+    class CircleR2(Circle):
+    ...
+        def get_area(self):
+            return Circle.get_area(self, self.radius*2)
+
+There is nothing special about ``__init__``  except that it gets called
+automatically when you instantiate an instance.
+
+
+When to Subclass
+----------------
+
+"Is a" relationship: Subclass/inheritance
+
+"Has a" relationship: Composition
+
+.. nextslide::
+
+"**Is** a" vs "**Has** a"**
+
+You may have a class that needs to accumulate an arbitrary number of objects.
+
+A list can do that -- so should you subclass list?
+
+Ask yourself:
+
+-- **Is** your class a list (with some extra functionality)?
+
+or
+
+-- Does you class **have** a list?
+
+You only want to subclass list if your class could be used anywhere a list can be used.
+
+
+Attribute resolution order
+--------------------------
+
+When you access an attribute:
+
+``an_instance.something``
+
+Python looks for it in this order:
+
+  * Is it an instance attribute ?
+  * Is it a class attribute ?
+  * Is it a superclass attribute ?
+  * Is it a super-superclass attribute ?
+  * ...
+
+
+It can get more complicated...
+
+https://www.python.org/download/releases/2.3/mro/
+
+http://python-history.blogspot.com/2010/06/method-resolution-order.html
+
+
+What are Python classes, really?
+--------------------------------
+
+Putting aside the OO theory...
+
+Python classes are:
+
+  * Namespaces
+
+    * One for the class object
+    * One for each instance
+
+  * Attribute resolution order
+  * Auto tacking-on of ``self`` when methods are called
+
+
+That's about it -- really!
+
+
+Type-Based dispatch
+-------------------
+
+You'll see code that looks like this:
+
+.. code-block:: python
+
+      if isinstance(other, A_Class):
+          Do_something_with_other
+      else:
+          Do_something_else
+
+
+Usually better to use "duck typing" (polymorphism)
+
+But when it's called for:
+
+    * ``isinstance()``
+    * ``issubclass()``
+
+.. nextslide::
+
+GvR: "Five Minute Multi- methods in Python":
+
+http://www.artima.com/weblogs/viewpost.jsp?thread=101605
+
+https://www.python.org/download/releases/2.3/mro/
+
+http://python-history.blogspot.com/2010/06/method-resolution-order.html
+
+
+Wrap Up
+-------
+
+Thinking OO in Python:
+
+Think about what makes sense for your code:
+
+* Code re-use
+* Clean APIs
+* ...
+
+Don't be a slave to what OO is *supposed* to look like.
+
+Let OO work for you, not *create* work for you
+
+.. nextslide::
+
+OO in Python:
+
+The Art of Subclassing: *Raymond Hettinger*
+
+http://pyvideo.org/video/879/the-art-of-subclassing
+
+"classes are for code re-use -- not creating taxonomies"
+
+Stop Writing Classes: *Jack Diederich*
+
+http://pyvideo.org/video/880/stop-writing-classes
+
+"If your class has only two methods -- and one of them is ``__init__``
+-- you don't need a class"
+
+
+===
+LAB
+===
+
+.. rst-class:: left medium
+
+    * html renderer: let's see how much more we can do!
+
+.. rst-class:: left
+
+    :ref:`exercise_html_renderer`
+
+    Now we have a base class, and we can:
+
+    * Subclass overriding class attributes
+    * Subclass overriding a method
+    * Subclass overriding the ``__init__``
+
+    These are the core OO approaches
+
+
+===================
+More on Subclassing
+===================
+
+.. rst-class:: left
+
+    This is a great talk (yes, I'm repeating):
+
+    The Art of Subclassing: *Raymond Hettinger*
+
+    http://pyvideo.org/video/879/the-art-of-subclassing
+
+    If you haven't watched it,  It's well worth your time
 
 What's a Subclass For?
 ----------------------
 
 The most salient points from that video are as follows:
 
-**Subclassing is not for Specialization**
+* **Subclassing is not for Specialization**
 
-**Subclassing is for Reusing Code**
+* **Subclassing is for Reusing Code**
 
-**Bear in mind that the subclass is in charge**
+* **Bear in mind that the subclass is in charge**
 
 
 Multiple Inheritance
@@ -276,7 +802,6 @@ Simply provide more than one parent.
             Super3.__init__(self, ......)
             # possibly more custom initialization
 
-
 (calls to the super class ``__init__``  are optional -- case dependent)
 
 .. nextslide:: Method Resolution Order
@@ -291,9 +816,9 @@ Attributes are located bottom-to-top, left-to-right
 * Is it a class attribute ?
 * Is it a superclass attribute ?
 
-  * is the it an attribute of the left-most superclass?
-  * is the it an attribute of the next superclass?
-  * and so on up the hierarchy...
+  - Is  it an attribute of the left-most superclass?
+  - Is  it an attribute of the next superclass?
+  - and so on up the hierarchy...
 
 * Is it a super-superclass attribute ?
 * ... also left to right ...
@@ -302,9 +827,11 @@ http://python-history.blogspot.com/2010/06/method-resolution-order.html
 
 .. nextslide:: Mix-ins
 
+So why would you want to do this? One reason:  *mixins*
+
 Provides an subset of expected functionality in a re-usable package.
 
-Why would you want to do this?
+Huh? this is why --
 
 Hierarchies are not always simple:
 
@@ -313,44 +840,27 @@ Hierarchies are not always simple:
   * Mammal
 
     * GiveBirth()
-    
+
   * Bird
-    
+
     * LayEggs()
-    
+
 Where do you put a Platypus?
 
 Real World Example: `FloatCanvas`_
 
-.. _FloatCanvas: https://github.com/svn2github/wxPython/blob/master/3rdParty/FloatCanvas/floatcanvas/FloatCanvas.py#L485
-
-**Careful About This Pattern**
+.. _FloatCanvas: https://github.com/wxWidgets/wxPython/blob/master/wx/lib/floatcanvas/FloatCanvas.py#L485
 
 
-.. nextslide:: New-Style Classes
-
-All the class definitions we've been showing inherit from ``object``.
-
-This is referred to as a "new style" class.
-
-They were introduced in python2.2 to better merge types and classes, and clean
-up a few things.
-
-There are differences in method resolution order and properties.
-
-**Always Make New-Style Classes.**
-
-The differences are subtle, and may not appear until they jump up to bite you.
-
-
-.. nextslide:: ``super()``
+``super()``
+-----------
 
 ``super()``: use it to call a superclass method, rather than explicitly calling
 the unbound method on the superclass.
 
 instead of:
 
-.. code-block:: python  
+.. code-block:: python
 
     class A(B):
         def __init__(self, *args, **kwargs)
@@ -359,11 +869,11 @@ instead of:
 
 You can do:
 
-.. code-block:: python  
+.. code-block:: python
 
     class A(B):
         def __init__(self, *args, **kwargs)
-            super(A, self).__init__(*argw, **kwargs)
+            super().__init__(*argw, **kwargs)
             ...
 
 .. nextslide:: Caveats
@@ -372,8 +882,9 @@ Caution: There are some subtle differences with multiple inheritance.
 
 You can use explicit calling to ensure that the 'right' method is called.
 
+.. rst-class:: medium
 
-.. nextslide:: Background
+    **Background**
 
 Two seminal articles about ``super()``:
 
@@ -383,594 +894,26 @@ https://fuhm.net/super-harmful/
 
 "super() considered super!"  --  Raymond Hettinger
 
-http://rhettinger.wordpress.com/2011/05/26/super-considered-super/}
+http://rhettinger.wordpress.com/2011/05/26/super-considered-super/
 
 (Both worth reading....)
 
-
-Properties
-==========
-
-.. rst-class:: left
-.. container::
-
-    One of the strengths of Python is lack of clutter.
-
-    Attributes are simple and concise:
-
-    .. code-block:: ipython
-
-        In [5]: class C(object):
-                def __init__(self):
-                        self.x = 5
-        In [6]: c = C()
-        In [7]: c.x
-        Out[7]: 5
-        In [8]: c.x = 8
-        In [9]: c.x
-        Out[9]: 8
-
-
-Getter and Setters?
--------------------
-
-But what if you need to add behavior later?
-
-.. rst-class:: build
-
-* do some calculation
-* check data validity
-* keep things in sync
-
-
-.. nextslide::
-
-.. code-block:: ipython
-
-    In [5]: class C(object):
-       ...:     def __init__(self):
-       ...:         self.x = 5
-       ...:     def get_x(self):
-       ...:         return self.x
-       ...:     def set_x(self, x):
-       ...:         self.x = x
-       ...:
-    In [6]: c = C()
-    In [7]: c.get_x()
-    Out[7]: 5
-    In [8]: c.set_x(8)
-    In [9]: c.get_x()
-    Out[9]: 8
-
-
-<shudder> This is ugly and verbose -- `Java`_?
-
-.. _Java: http://dirtsimple.org/2004/12/python-is-not-java.html
-
-.. nextslide:: properties
-
-When (and if) you need them:
-
-.. code-block:: python
-
-    class C(object):
-        def __init__(self, x=5):
-            self._x = x
-        def _getx(self):
-            return self._x
-        def _setx(self, value):
-            self._x = value
-        def _delx(self):
-            del self._x
-        x = property(_getx, _setx, _delx, doc="docstring")
-
-Now the interface is still like simple attribute access!
-
-.. rst-class:: centered small
-
-[demo: :download:`properties_example.py <./supplements/properties_example.py>`]
-
-
-.. nextslide:: "Read Only" Attributes
-
-Not all the arguments to ``property`` are required.
-
-You can use this to create attributes that are "read only":
-
-.. code-block:: ipython
-
-    In [11]: class D(object):
-       ....:     def __init__(self, x=5):
-       ....:         self._x = 5
-       ....:     def getx(self):
-       ....:         return self._x
-       ....:     x = property(getx, doc="I am read only")
-       ....:
-    In [12]: d = D()
-    In [13]: d.x
-    Out[13]: 5
-    In [14]: d.x = 6
-    ---------------------------------------------------------------------------
-    AttributeError                            Traceback (most recent call last)
-    <ipython-input-14-c83386d97be3> in <module>()
-    ----> 1 d.x = 6
-    AttributeError: can't set attribute
-
-
-.. nextslide:: Syntactic Sugar
-
-This *imperative* style of adding a ``property`` to you class is clear, but
-it's still a little verbose.
-
-It also has the effect of leaving all those defined method objects laying
-around:
-
-.. code-block:: ipython
-
-    In [19]: d.x
-    Out[19]: 5
-    In [20]: d.getx
-    Out[20]: <bound method D.getx of <__main__.D object at 0x1043a4a10>>
-    In [21]: d.getx()
-    Out[21]: 5
-
-.. nextslide::
-
-Python provides us with a way to solve both these issues at once, using a
-syntactic feature called **decorators** (more about these next session):
-
-.. code-block:: ipython
-
-    In [22]: class E(object):
-       ....:     def __init__(self, x=5):
-       ....:         self._x = x
-       ....:     @property
-       ....:     def x(self):
-       ....:         return self._x
-       ....:     @x.setter
-       ....:     def x(self, value):
-       ....:         self._x = value
-       ....:
-    In [23]: e = E()
-    In [24]: e.x
-    Out[24]: 5
-    In [25]: e.x = 6
-    In [26]: e.x
-    Out[26]: 6
-
-
-Static and Class Methods
-========================
-
-.. rst-class:: left build
-.. container::
-
-    You've seen how methods of a class are *bound* to an instance when it is
-    created.
-
-    And you've seen how the argument ``self`` is then automatically passed to
-    the method when it is called.
-
-    And you've seen how you can call *unbound* methods on a class object so
-    long as you pass an instance of that class as the first argument.
-
-    .. rst-class:: centered
-
-    **But what if you don't want or need an instance?**
-
-
-Static Methods
---------------
-
-A *static method* is a method that doesn't get self:
-
-.. code-block:: ipython
-
-    In [36]: class StaticAdder(object):
-       ....:     def add(a, b):
-       ....:         return a + b
-       ....:     add = staticmethod(add)
-       ....:
-
-    In [37]: StaticAdder.add(3, 6)
-    Out[37]: 9
-
-.. rst-class:: centered
-
-[demo: :download:`static_method.py <./supplements/static_method.py>`]
-
-
-.. nextslide:: Syntactic Sugar
-
-Like ``properties``, static methods can be written *declaratively* using the
-``staticmethod`` built-in as a *decorator*:
-
-.. code-block:: python
-
-    class StaticAdder(object):
-        @staticmethod
-        def add(a, b):
-            return a + b
-
-.. nextslide:: Why?
-
-.. rst-class:: build
-.. container::
-
-    Where are static methods useful?
-
-    Usually they aren't
-
-    99% of the time, it's better just to write a module-level function
-
-    An example from the Standard Library (tarfile.py):
-
-    .. code-block:: python
-        
-        class TarInfo(object):
-            # ...
-            @staticmethod
-            def _create_payload(payload):
-                """Return the string payload filled with zero bytes
-                   up to the next 512 byte border.
-                """
-                blocks, remainder = divmod(len(payload), BLOCKSIZE)
-                if remainder > 0:
-                    payload += (BLOCKSIZE - remainder) * NUL
-                return payload
-
-
-Class Methods
--------------
-
-A class method gets the class object, rather than an instance, as the first
-argument
-
-.. code-block:: ipython
-
-    In [41]: class Classy(object):
-       ....:     x = 2
-       ....:     def a_class_method(cls, y):
-       ....:         print "in a class method: ", cls
-       ....:         return y ** cls.x
-       ....:     a_class_method = classmethod(a_class_method)
-       ....:
-    In [42]: Classy.a_class_method(4)
-    in a class method:  <class '__main__.Classy'>
-    Out[42]: 16
-
-.. rst-class:: centered
-
-[demo: :download:`class_method.py <./supplements/class_method.py>`]
-
-.. nextslide:: Syntactic Sugar
-
-Once again, the ``classmethod`` built-in can be used as a *decorator* for a
-more declarative style of programming:
-
-.. code-block:: python
-
-    class Classy(object):
-        x = 2
-        @classmethod
-        def a_class_method(cls, y):
-            print "in a class method: ", cls
-            return y ** cls.x
-
-.. nextslide:: Why?
-
-.. rst-class:: build
-.. container::
-
-    Unlike static methods, class methods are quite common.
-
-    They have the advantage of being friendly to subclassing.
-
-    Consider this:
-
-    .. code-block:: ipython
-    
-        In [44]: class SubClassy(Classy):
-           ....:     x = 3
-           ....:
-
-        In [45]: SubClassy.a_class_method(4)
-        in a class method:  <class '__main__.SubClassy'>
-        Out[45]: 64
-
-.. nextslide:: Alternate Constructors
-
-Because of this friendliness to subclassing, class methods are often used to
-build alternate constructors.
-
-Consider the case of wanting to build a dictionary with a given iterable of
-keys:
-
-.. code-block:: ipython
-
-    In [57]: d = dict([1,2,3])
-    ---------------------------------------------------------------------------
-    TypeError                                 Traceback (most recent call last)
-    <ipython-input-57-50c56a77d95f> in <module>()
-    ----> 1 d = dict([1,2,3])
-
-    TypeError: cannot convert dictionary update sequence element #0 to a sequence
-
-
-.. nextslide:: ``dict.fromkeys()``
-
-The stock constructor for a dictionary won't work this way. So the dict object
-implements an alternate constructor that *can*.
-
-.. code-block:: python
-
-    @classmethod
-    def fromkeys(cls, iterable, value=None):
-        '''OD.fromkeys(S[, v]) -> New ordered dictionary with keys from S.
-        If not specified, the value defaults to None.
-
-        '''
-        self = cls()
-        for key in iterable:
-            self[key] = value
-        return self
-
-(this is actually from the OrderedDict implementation in ``collections.py``)
-
-See also datetime.datetime.now(), etc....
-
-.. nextslide:: Curious?
-
-Properties, Static Methods and Class Methods are powerful features of Pythons
-OO model.
-
-They are implemented using an underlying structure called *descriptors*
-
-`Here is a low level look`_ at how the descriptor protocol works.
-
-The cool part is that this mechanism is available to you, the programmer, as
-well.
-
-.. _Here is a low level look: https://docs.python.org/2/howto/descriptor.html
-
-
-Kicking the Tires
------------------
-
-Copy the file ``code/session07/circly.py`` to your student folder.
-
-In it, write a simple "Circle" class:
-
-.. code-block:: ipython
-
-    In [13]: c = Circle(3)
-    In [15]: c.diameter
-    Out[15]: 6.0
-    In [16]: c.diameter = 8
-    In [17]: c.radius
-    Out[17]: 4.0
-    In [18]: c.area
-    Out[18]: 50.26548245743669
-
-
-Use ``properties`` so you can keep the radius and diameter in sync, and the
-area computed on the fly.
-
-Extra Credit: use a class method to make an alternate constructor that takes
-the diameter instead.
-
-
-.. nextslide::
-
-Also copy the file ``test_circle1.py`` to your student folder.
-
-As you work, run the tests:
-
-.. code-block:: bash
-
-    (cff2py)$ py.test test_circle1.py
-
-As each of the requirements from above are fulfilled, you'll see tests 'turn
-green'.
-
-When all your tests are passing, you've completed the job.
-
-(This clear finish line is another of the advantages of TDD)
-
-
-Special Methods
-===============
-
-.. rst-class:: left
-.. container::
-
-    Special methods (also called *magic* methods) are the secret sauce to Python's
-    Duck typing.
-
-    Defining the appropriate special methods in your classes is how you make your
-    class act like standard classes.
-
-What's in a Name?
------------------
-
-We've seen at least one special method so far::
-
-    __init__
-
-It's all in the double underscores...
-
-Pronounced "dunder" (or "under-under")
-
-try: ``dir(2)``  or ``dir(list)``
-
-.. nextslide:: Protocols
-
-.. rst-class:: build
-.. container::
-
-    The set of special methods needed to emulate a particular type of Python object
-    is called a *protocol*.
-
-    Your classes can "become" like Python built-in classes by implementing the
-    methods in a given protocol.
-
-    Remember, these are more *guidelines* than laws.  Implement what you need.
-
-
-.. nextslide:: The Numerics Protocol
-
-Do you want your class to behave like a number? Implement these methods:
-
-.. code-block:: python
-
-    object.__add__(self, other)
-    object.__sub__(self, other)
-    object.__mul__(self, other)
-    object.__floordiv__(self, other)
-    object.__mod__(self, other)
-    object.__divmod__(self, other)
-    object.__pow__(self, other[, modulo])
-    object.__lshift__(self, other)
-    object.__rshift__(self, other)
-    object.__and__(self, other)
-    object.__xor__(self, other)
-    object.__or__(self, other)
-
-.. nextslide:: The Container Protocol
-
-Want to make a container type? Here's what you need:
-
-.. code-block:: python
-
-    object.__len__(self)
-    object.__getitem__(self, key)
-    object.__setitem__(self, key, value)
-    object.__delitem__(self, key)
-    object.__iter__(self)
-    object.__reversed__(self)
-    object.__contains__(self, item)
-    object.__getslice__(self, i, j)
-    object.__setslice__(self, i, j, sequence)
-    object.__delslice__(self, i, j)
-
-
-.. nextslide:: An Example
-
-Each of these methods supports a common Python operation.
-
-For example, to make '+' work with a sequence type in a vector-like fashion, implement ``__add__``:
-
-.. code-block:: python
-
-    def __add__(self, v):
-        """return the element-wise vector sum of self and v
-        """
-        assert len(self) == len(v)
-        return vector([x1 + x2 for x1, x2 in zip(self, v)])
-
-.. rst-class:: centered
-
-[a more complete example may be seen :download:`here <./supplements/vector.py>`]
-
-
-.. nextslide:: Generally Useful Special Methods
-
-You only *need* to define the special methods that will be used by your class.
-
-However, even in the absence of wanting to duck-type, you should almost always
-define these:
-
-``object.__str__``:
-  Called by the str() built-in function and by the print statement to compute
-  the *informal* string representation of an object.
-
-``object.__unicode__``:
-  Called by the unicode() built-in function.  This converts an object to an
-  *informal* unicode representation.
-
-``object.__repr__``:
-  Called by the repr() built-in function and by string conversions (reverse
-  quotes) to compute the *official* string representation of an object.
-
-  (ideally: ``eval( repr(something) ) == something``)
-
-.. nextslide:: Summary
-
-Use special methods when you want your class to act like a "standard" class in
-some way.
-
-Look up the special methods you need and define them.
-
-There's more to read about the details of implementing these methods:
-
-* https://docs.python.org/2/reference/datamodel.html#special-method-names
-* http://www.rafekettler.com/magicmethods.html
-
-Be a bit cautious about the code examples in that last one. It uses quite a bit
-of old-style class definitions, which should not be emulated.
-
-
-Kicking the Tires
------------------
-
-Extend your "Circle" class:
-
-* Add ``__str__``  and ``__repr__``  methods
-* Write an ``__add__``  method so you can add two circles
-* Make it so you can multiply a circle by a number....
-
-.. code-block:: ipython
-
-    In [22]: c1 = Circle(3)
-    In [23]: c2 = Circle(4)
-    In [24]: c3 = c1+c2
-    In [25]: c3.radius
-    Out[25]: 7
-    In [26]: c1*3
-    Out[26]: Circle(9)
-
-If you have time: compare them... (``c1 > c2`` , etc)
-
-
-.. nextslide::
-
-As you work, run the tests in ``test_circle2.py``:
-
-.. code-block:: bash
-
-    (cff2py)$ py.test test_circle2.py
-
-As each of the requirements from above are fulfilled, you'll see tests 'turn
-green'.
-
-When all your tests are passing, you've completed the job.
-
-
+========
 Homework
 ========
 
-.. rst-class:: centered large
+Complete your html renderer.
 
-Testing, Testing, 1 2 3
+Watch these videos:
 
+Python class toolkit: *Raymond Hettinger* -- https://youtu.be/HTLu2DFOdTg
 
-Assignment
-----------
+https://speakerdeck.com/pyconslides/pythons-class-development-toolkit-by-raymond-hettinger
 
-If you are not yet done, complete the ``Circle`` class so that all tests in
-``test_circle2.py`` pass.
+The Art of Subclassing: *Raymond Hettinger* -- http://pyvideo.org/video/879/the-art-of-subclassing
 
-Go back over some of your assignments from the last weeks.
+Stop Writing Classes: *Jack Diederich* -- http://pyvideo.org/video/880/stop-writing-classes
 
-Convert tests that are currently in the ``if __name__ == '__main__':`` blocks
-into standalone pytest files.
+Read up on super()
 
-Name each test file so that it is clear with which source file it belongs::
-
-    test_rot13.py -> rot13.py
-
-Add unit tests for the HTML Renderer that you are currently constructing.
-
-Create at least 4 test files with tests that well exercise the features built
-in each source file.
 
